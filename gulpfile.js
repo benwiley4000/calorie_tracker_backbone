@@ -14,7 +14,7 @@ gulp.task('buildjs', function () {
     'lib/backbone.localStorage-min.js',
     'app/models/*.js',
     'app/!(models)/*.js',
-    'app/app.js'
+    'app/*.js'
   ], { cwd: 'src/js/' })
     .pipe(plumber())
     .pipe(concat('all.js'))
@@ -24,7 +24,7 @@ gulp.task('buildjs', function () {
 });
 
 gulp.task('lint', function () {
-  return gulp.src('js/*.js')
+  return gulp.src(['src/js/app/**/*.js', 'src/js/app/*.js'])
     .pipe(plumber())
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'));
@@ -40,7 +40,7 @@ gulp.task('styles', function () {
 });
 
 gulp.task('watch', function () {
-  gulp.watch(['src/js/**/*.js', 'src/js/*.js'], ['buildjs', 'lint']);
+  gulp.watch(['src/js/app/**/*.js', 'src/js/app/*.js'], ['buildjs', 'lint']);
   gulp.watch('src/css/*.css', ['styles']);
 });
 
