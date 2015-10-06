@@ -27,7 +27,12 @@ var SearchResultList = Backbone.Collection.extend({
   },
 
   parse: function (response) {
-    return (response.results && response.results.length) ? response.results : [];
+    if(response.results && response.results.length) {
+      return response.results;
+    } else if(response.errors && response.errors.length && response.errors[0].message) {
+      this.trigger('error:search', response.errors[0].message);
+    }
+    return [];
   },
 
   // searches Nutritionix API for given term
