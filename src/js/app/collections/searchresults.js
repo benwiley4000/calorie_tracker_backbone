@@ -12,7 +12,7 @@ var SearchResultList = Backbone.Collection.extend({
   query: '',
 
   // this determines how many new search results get loaded at a time
-  loadLimit: 15,
+  loadLimit: 8,
 
   // this determines how many asynchronous calls for search results have
   // been made for the current query
