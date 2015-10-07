@@ -2,13 +2,81 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Health Tracker App</title>
+  <title>Track Your Calories!</title>
   <link rel="stylesheet" href="public/main.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dosis:500,700">
 </head>
 <body>
+  <header>
+    <h2>Track Your Calories!</h2>
+  </header>
+  <main>
+    <label for="searchbar" class="search-prompt">Search for foods you eat...</label>
+    <input id="searchbar" class="searchbar" type="text" list="autocomplete" autofocus>
+    <datalist id="autocomplete">
+      <!-- Options from Nutritionix autocomplete API will be loaded here. -->
+      <!-- Looks like Safari can't support datalist.. so sad! :( Oh well. -->
+      <!-- http://caniuse.com/#feat=datalist -->
+    </datalist>
+    <div class="search-results">
+      <!-- Results from Nutritionix search API will be loaded here. -->
+    </div>
+  </main>
   <footer>
     <p>Powered by <a href="http://www.nutritionix.com/api" target="_blank">Nutritionix API</a>.</p>
   </footer>
+
+  <script type="text/template" id="auto-result-template">
+    <option value="<%= text %>">
+  </script>
+
+  <script type="text/template" id="search-result-template">
+    <div class="search-result">
+      <h3 class="search-result-title"><%= item_name %></h3>
+      <img class="search-result-thumbnail"
+           src="<%= thumbnail %>"
+           alt="<%= item_name %><%= brand_name ? ' from' + brand_name : '' %>">
+      <div class="search-result-description">
+        <div>
+          <span class="track-food-button <%= isTracking ? 'tracked' : 'untracked' %>">
+            <strong><%= isTracking ? 'Tracking this food:'  : 'Track this food' %></strong>
+          </span>
+          <% if(isTracking) { %>
+            <span><%= weekCalCount %> Calories in last week</span>
+          <% } %>
+        </div>
+        <% if(brand_name) { %>
+          <div>
+            <span><strong>Brand: </strong></span>
+            <span><%= brand_name %></span>
+          </div>
+        <% } %>
+        <% if(nutrient_value && nutrient_uom === 'kcal') { %>
+          <div>
+            <span><strong>Calories: </strong></span>
+            <span><%= nutrient_value %></span>
+          </div>
+        <% } %>
+        <% if(serving_qty) { %>
+          <div>
+            <span><strong>Serving size: </strong></span>
+            <span><%= serving_qty %> <%= serving_uom %></span>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/template" id="food-list-item-template">
+    // TODO: implement view slightly different than search-result-template
+    // for already-tracked food items
+  </script>
+
+  <script type="text/template" id="timeline-view-template">
+    // TODO: implement timeline view (find library?) showing
+    // Calorie consumption over time
+  </script>
+
   <script src="public/main.js"></script>
 </body>
 </html>

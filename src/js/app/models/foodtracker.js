@@ -6,6 +6,7 @@ app.FoodTracker = Backbone.Model.extend({
     servingsTable: []
   },
 
+  // TODO: allow parameter(s) for selecting specific time window
   getTotalServings: function () {
     return _.reduce(this.get('servingsTable'), function (memo, entry) {
       return memo + entry.amount;

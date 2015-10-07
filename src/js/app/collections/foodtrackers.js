@@ -6,16 +6,25 @@ var FoodTrackerList = Backbone.Collection.extend({
 
   localStorage: new Backbone.LocalStorage('food-trackers-backbone'),
 
-  getTrackerByResourceId: function (resourceId) {
+  // we tell quiet to be true in cases where we wouldn't consider
+  // a find failure to be an error
+  getTrackerByResourceId: function (resourceId, quiet) {
     var tracker = this.find(function (model) {
       return model.attributes.resource_id === resourceId;
     });
-    if(!tracker) {
-      console.log('No calorie counter found for resource id "' + resourceId + '"');
+    if(!tracker && !quiet) {
+      console.log('No calorie tracker found for resource id "' + resourceId + '"');
     }
     return tracker;
+  },
+
+  isTracking: function (resourceId) {
+    if(this.getTrackerByResourceId(resourceId, true)) {
+      return true;
+    }
+    return false;
   }
 
 });
 
-app.foodTrackers = new FoodTrackerList();
+app.foodTrackerList = new FoodTrackerList();

@@ -1,1 +1,1 @@
-body{font-family:Sans-serif}
+body,html,main{width:100%;max-height:100vh}body{font-family:Dosis,Sans-serif;display:flex;flex-direction:column;font-size:18px}main{height:500px}.search-prompt,.searchbar{display:block}.searchbar{font-size:1em;margin-bottom:12px;width:300px;max-width:80%}.search-prompt{margin-bottom:4px}.search-results{overflow:auto}.track-food-button.untracked{cursor:pointer}.track-food-button.untracked:before{content:'+'}.track-food-button.tracked:before{content:'✔'}
