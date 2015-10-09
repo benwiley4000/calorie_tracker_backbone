@@ -18,6 +18,13 @@ var SearchResultList = Backbone.Collection.extend({
   // been made for the current query
   loadCount: 1,
 
+  // used for comparison when new results come in
+  lastResultCount: 0,
+
+  // keeps track of whether query has been exhausted; if yes,
+  // calls for loading the next set will simply return false.
+  isQueryExhausted: false,
+
   url: function () {
     // we impose a hard limit of 50 results, since the API doesn't allow
     // anything greater than that.
@@ -37,24 +44,47 @@ var SearchResultList = Backbone.Collection.extend({
 
   // searches Nutritionix API for given term
   search: function (query) {
-    if(query === this.query) return;
+    if(query === this.query || query === '') return;
+    this.isQueryExhausted = false;
+    this.lastResultCount = 0;
     this.query = query;
     this.loadCount = 1;
     this.fetch({
+      success: function () {
+        this.trigger('success:loadresults');
+      }.bind(this),
       error: function () {
-        this.trigger('error:search');
-      }
+        this.trigger('error:loadresults');
+      }.bind(this)
     });
   },
 
-  // fetches the next set of search results
+  // fetches the next set of search results; returns
+  // false if we've reached the max load limit
   loadNextSet: function () {
+    if(this.isQueryExhausted) return false;
+
+    // compare current result count with last to see if query is exhausted
+    if(this.length === this.lastResultCount) {
+      this.isQueryExhausted = true;
+      return false;
+    }
+
+    this.lastResultCount = this.length;
+
+    if((this.loadLimit * this.loadCount) >= 50) {
+      return false;
+    }
     this.loadCount++;
     this.fetch({
+      success: function () {
+        this.trigger('success:loadresults');
+      }.bind(this),
       error: function () {
-        this.trigger('error:loadmoreresults');
-      }
+        this.trigger('error:loadresults');
+      }.bind(this)
     });
+    return true;
   }
 
 });
