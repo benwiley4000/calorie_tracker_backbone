@@ -100,7 +100,18 @@ app.AppView = Backbone.View.extend({
   handleResultsLoadError: function () {
     this.hideLoadingIndicator();
 
-    // display load error message
+    var errorAlertContent =
+      '<div class="load-error-container">' +
+        '<div id="load-error" class="load-error">' +
+          'We\'re having trouble fetching more results . . .' +
+        '</div>' +
+      '</div>';
+    this.$searchResults.append(errorAlertContent);
+
+    // hide error message after 2.5 seconds
+    setTimeout(function () {
+      $('#load-error').parent().remove();
+    }, 2500);
   },
 
   displayLoadingIndicator: function () {

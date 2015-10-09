@@ -102,21 +102,39 @@ main {
  * me figured it out.
  */
 
-.loading-container {
+.loading-container,
+.load-error-container {
   position: absolute;
   left: 50%;
+}
+
+.loading-container {
   bottom: 60px;
 }
 
-.loading {
+.load-error-container {
+  bottom: 80px;
+}
+
+.loading,
+.load-error {
   position: fixed;
-  min-width: 110px;
   background-color: rgba(0, 0, 0, 0.75);
   color: #fff;
-  margin: 0 auto 0 -59px;
   padding: 3px 12px;
   border-radius: 10px;
   font-size: 1.3em;
+}
+
+.loading {
+  min-width: 110px;
+  margin: 0 auto 0 -59px;
+}
+
+.load-error {
+  text-align: center;
+  width: 250px;
+  margin: 0 auto 0 -125px;
 }
 
 @media screen and (min-width: 400px) {
@@ -131,7 +149,7 @@ main {
   }
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 570px) {
   .searchbar-wrapper {
     width: 440px;
   }

@@ -4,6 +4,7 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var jshint = require('gulp-jshint');
 var rename = require('gulp-rename');
+var autoprefixer = require('gulp-autoprefixer');
 var minifyCSS = require('gulp-minify-css');
 
 gulp.task('buildjs', function () {
@@ -34,6 +35,7 @@ gulp.task('styles', function () {
   return gulp.src('src/css/*.css')
     .pipe(plumber())
     .pipe(concat('all.css'))
+    .pipe(autoprefixer({ browsers: ['> 2%'] }))
     .pipe(minifyCSS())
     .pipe(rename('main.css'))
     .pipe(gulp.dest('public/'));
