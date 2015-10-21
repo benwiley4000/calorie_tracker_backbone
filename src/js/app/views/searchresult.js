@@ -6,12 +6,13 @@ app.SearchResultView = Backbone.View.extend({
 
   template: _.template($('#search-result-template').html()),
 
-  events: {},
+  events: {
+    'click .track-food-button.untracked': 'trackStats'
+  },
 
   initialize: function () {
-    this.events['click track-' + this.model.get('resource_id')] = 'trackStats';
-
     this.$el.addClass('search-result');
+    this.listenTo(app.foodTrackerList, 'add', this.refreshAfterTracking);
   },
 
   render: function () {
@@ -37,9 +38,19 @@ app.SearchResultView = Backbone.View.extend({
     return this;
   },
 
+  // checks if new FoodTracker has same resource_id as this search result; if so, re-renders
+  refreshAfterTracking: function (model) {
+    if(model.get('resource_id') === this.model.get('resource_id')) {
+      this.render();
+    }
+  },
+
   // tracks this food in localStorage
   trackStats: function () {
     app.foods.create(this.model.attributes);
+    app.foodTrackerList.create({
+      resource_id: this.model.get('resource_id')
+    });
   }
 
 });

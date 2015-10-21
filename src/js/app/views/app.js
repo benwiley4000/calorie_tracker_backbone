@@ -31,6 +31,7 @@ app.AppView = Backbone.View.extend({
     this.listenTo(app.autoResults, 'sync', this.updateAutocomplete);
     this.listenTo(app.searchResults, 'sync', this.retrieveSearchResults);
 
+    app.foodTrackerList.fetch();
     this.retrieveSearchResults();
   },
 
@@ -73,12 +74,12 @@ app.AppView = Backbone.View.extend({
     }
   },
 
-  // calls loadMoreSearchResults 400 milliseconds after scrolling ends
+  // calls loadMoreSearchResults 250 milliseconds after scrolling ends
   loadMoreOnScrollEnd: function (event) {
     if(this.scrollTimeout) {
       clearTimeout(this.scrollTimeout);
     }
-    this.scrollTimeout = setTimeout(this.loadMoreSearchResults.bind(this), 400);
+    this.scrollTimeout = setTimeout(this.loadMoreSearchResults.bind(this), 250);
   },
 
   loadMoreSearchResults: function () {
@@ -103,14 +104,14 @@ app.AppView = Backbone.View.extend({
     var errorAlertContent =
       '<div class="load-error-container">' +
         '<div id="load-error" class="load-error">' +
-          'We\'re having trouble fetching more results . . .' +
+          'We\'re having trouble fetching results . . .' +
         '</div>' +
       '</div>';
     this.$searchResults.append(errorAlertContent);
 
     // hide error message after 2.5 seconds
     setTimeout(function () {
-      $('#load-error').parent().remove();
+      this.$('#load-error').parent().remove();
     }, 2500);
   },
 
@@ -132,7 +133,7 @@ app.AppView = Backbone.View.extend({
     if(this.currentLoadingFrame === 4) {
       this.currentLoadingFrame = 0;
     }
-    $('#loading').text(this.loadingFrames[this.currentLoadingFrame]);
+    this.$('#loading').text(this.loadingFrames[this.currentLoadingFrame]);
   },
 
   hideLoadingIndicator: function () {

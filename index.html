@@ -35,14 +35,6 @@
          src="<%= thumbnail %>"
          alt="<%= item_name %><%= brand_name ? ' from' + brand_name : '' %>">
     <div class="search-result-description">
-      <div>
-        <span id="<%= 'track-' + resource_id %>" class="track-food-button <%= isTracking ? 'tracked' : 'untracked' %>">
-          <strong><%= isTracking ? 'Tracking this food:'  : 'Track this food' %></strong>
-        </span>
-        <% if(isTracking) { %>
-          <span><%= weekCalCount %> Calories in last week</span>
-        <% } %>
-      </div>
       <% if(brand_name) { %>
         <div>
           <span><strong>Brand: </strong></span>
@@ -61,6 +53,14 @@
           <span><%= serving_qty %> <%= serving_uom %></span>
         </div>
       <% } %>
+      <div>
+        <span class="track-food-button <%= isTracking ? 'tracked' : 'untracked' %>">
+          <strong><%= isTracking ? 'Tracking:'  : 'Track this food' %></strong>
+        </span>
+        <% if(isTracking) { %>
+          <span><%= weekCalCount %> Cal in last week</span>
+        <% } %>
+      </div>
     </div>
   </script>
 

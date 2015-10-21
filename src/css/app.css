@@ -19,6 +19,12 @@ main {
   flex-direction: column;
 }
 
+a {
+  font-weight: bold;
+  text-decoration: none;
+  color: #77a346;
+}
+
 .search-prompt {
   display: block;
   margin-bottom: 4px;
@@ -27,7 +33,6 @@ main {
 .searchbar-wrapper {
   width: 100%;
   max-width: 100%;
-  overflow: hidden;
 }
 
 .searchbar {
@@ -90,6 +95,7 @@ main {
 .track-food-button.tracked::before {
   /* ( '✔' ) */
   content: '\002714';
+  color: #77a346;
 }
 
 .none-found {
@@ -134,7 +140,12 @@ main {
 .load-error {
   text-align: center;
   width: 250px;
-  margin: 0 auto 0 -125px;
+  margin: 0 auto 0 -135px;
+}
+
+::selection {
+  background-color: #33461e;
+  color: #fff;
 }
 
 @media screen and (min-width: 400px) {
@@ -150,11 +161,9 @@ main {
 }
 
 @media screen and (min-width: 570px) {
-  .searchbar-wrapper {
+  header,
+  main,
+  footer {
     width: 440px;
-  }
-
-  .search-results {
-    width: 420px;
   }
 }
