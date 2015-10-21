@@ -7,6 +7,7 @@ main {
 }
 
 body {
+  height: 100vh;
   font-family: 'Dosis', Sans-serif;
   display: flex;
   flex-direction: column;
@@ -14,15 +15,21 @@ body {
 }
 
 main {
-  height: 100vh;
+  flex-grow: 1;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 a {
   font-weight: bold;
   text-decoration: none;
   color: #77a346;
+}
+
+.search {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .search-prompt {
@@ -60,6 +67,7 @@ a {
 }
 
 .search-results {
+  flex-grow: 1;
   margin: 8px 15px 0 0;
   height: 100%;
   overflow: auto;
