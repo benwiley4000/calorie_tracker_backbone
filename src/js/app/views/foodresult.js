@@ -1,17 +1,17 @@
 var app = app || {};
 
-app.SearchResultView = Backbone.View.extend({
+app.FoodResultView = Backbone.View.extend({
 
   tagName: 'div',
 
-  template: _.template($('#search-result-template').html()),
+  template: _.template($('#food-result-template').html()),
 
   events: {
     'click .track-food-button.untracked': 'trackStats'
   },
 
   initialize: function () {
-    this.$el.addClass('search-result');
+    this.$el.addClass('food-result');
     this.listenTo(app.foodTrackerList, 'add', this.refreshAfterTracking);
   },
 
@@ -19,7 +19,7 @@ app.SearchResultView = Backbone.View.extend({
     var attributes = this.model.attributes;
 
     var isTracking = app.foodTrackerList.isTracking(attributes.resource_id);
-    var weekCalCount = 100; // IMPLEMENT THIS FOR REAL!!!
+    var weekCalCount = 100; // TODO: IMPLEMENT THIS FOR REAL!!!
 
     var props = {
       item_name: attributes.item_name,
@@ -38,7 +38,7 @@ app.SearchResultView = Backbone.View.extend({
     return this;
   },
 
-  // checks if new FoodTracker has same resource_id as this search result; if so, re-renders
+  // checks if new FoodTracker has same resource_id as this food result; if so, re-renders
   refreshAfterTracking: function (model) {
     if(model.get('resource_id') === this.model.get('resource_id')) {
       this.render();

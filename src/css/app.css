@@ -76,7 +76,7 @@ a {
   position: relative;
 }
 
-.search-result {
+.food-result {
   background-color: #ffffff;
   margin: 5px;
   padding: 0 10px 15px;
@@ -84,11 +84,11 @@ a {
   overflow: auto;
 }
 
-.search-result-thumbnail {
+.food-result-thumbnail {
   width: 100px;
 }
 
-.search-result-description {
+.food-result-description {
   margin-top: 10px;
 }
 
@@ -151,18 +151,23 @@ a {
   margin: 0 auto 0 -135px;
 }
 
+.trackers {
+  /* default setting, will be shown when selected in nav. */
+  display: none;
+}
+
 ::selection {
   background-color: #33461e;
   color: #fff;
 }
 
 @media screen and (min-width: 400px) {
-  .search-result-thumbnail,
-  .search-result-description {
+  .food-result-thumbnail,
+  .food-result-description {
     float: left;
   }
 
-  .search-result-description {
+  .food-result-description {
     margin-top: initial;
     margin-left: 15px;
   }

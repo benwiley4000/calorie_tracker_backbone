@@ -12,7 +12,7 @@
     <h2>Track Your Calories!</h2>
   </header>
   <main id="health-tracker-app">
-    <div class="search">
+    <div id="search" class="search">
       <label for="searchbar" class="search-prompt">Search for foods you eat...</label>
       <div class="searchbar-wrapper">
         <input id="searchbar" class="searchbar" type="text" list="auto-results" autofocus>
@@ -27,17 +27,22 @@
         <!-- Results from Nutritionix search API will be loaded here. -->
       </div>
     </div>
+    <div id="trackers" class="trackers">
+      <div id="tracker-list" class="tracker-list">
+        
+      </div>
+    </div>
   </main>
   <footer>
     <p>Powered by <a href="http://www.nutritionix.com/api" target="_blank">Nutritionix API</a>.</p>
   </footer>
 
-  <script type="text/template" id="search-result-template">
-    <h3 class="search-result-title"><%= item_name %></h3>
-    <img class="search-result-thumbnail"
+  <script type="text/template" id="food-result-template">
+    <h3 class="food-result-title"><%= item_name %></h3>
+    <img class="food-result-thumbnail"
          src="<%= thumbnail %>"
          alt="<%= item_name %><%= brand_name ? ' from' + brand_name : '' %>">
-    <div class="search-result-description">
+    <div class="food-result-description">
       <% if(brand_name) { %>
         <div>
           <span><strong>Brand: </strong></span>
@@ -65,11 +70,6 @@
         <% } %>
       </div>
     </div>
-  </script>
-
-  <script type="text/template" id="food-list-item-template">
-    // TODO: implement view slightly different than search-result-template
-    // for already-tracked food items
   </script>
 
   <script type="text/template" id="timeline-view-template">
