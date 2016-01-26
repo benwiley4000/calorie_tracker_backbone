@@ -46,7 +46,7 @@ app.SearchView = Backbone.View.extend({
   retrieveSearchResults: function () {
     var $searchResults = this.$searchResults;
     $searchResults.html('');
-    if(app.searchResults.length) {
+    if (app.searchResults.length) {
       app.searchResults.each(function (model) {
         var view = new app.FoodResultView({ model: model });
         $searchResults.append(view.render().el);
@@ -62,18 +62,18 @@ app.SearchView = Backbone.View.extend({
 
   autocompleteOnInput: function () {
     var query = this.$searchbar.val().trim();
-    if(query) {
+    if (query) {
       app.autoResults.autocomplete(query);
     }
   },
 
   searchOnEnter: function (event) {
-    if(event.type !== 'click' && event.which !== ENTER_KEY) {
+    if (event.type !== 'click' && event.which !== ENTER_KEY) {
       return;
     }
     this.$searchbar.blur();
     var query = this.$searchbar.val().trim();
-    if(query) {
+    if (query) {
       app.searchResults.search(query);
       this.displayLoadingIndicator();
     }
@@ -81,7 +81,7 @@ app.SearchView = Backbone.View.extend({
 
   // calls loadMoreSearchResults 250 milliseconds after scrolling ends
   loadMoreOnScrollEnd: function (event) {
-    if(this.scrollTimeout) {
+    if (this.scrollTimeout) {
       clearTimeout(this.scrollTimeout);
     }
     this.scrollTimeout = setTimeout(this.loadMoreSearchResults.bind(this), 250);
@@ -92,8 +92,8 @@ app.SearchView = Backbone.View.extend({
     var scrollTop = searchResultsDiv.scrollTop;
     var maxScrollTop = searchResultsDiv.scrollHeight - searchResultsDiv.offsetHeight;
     // if we're close to the bottom, get more.
-    if(scrollTop >= maxScrollTop - 100) {
-      if(app.searchResults.loadNextSet()) {
+    if (scrollTop >= maxScrollTop - 100) {
+      if (app.searchResults.loadNextSet()) {
         this.displayLoadingIndicator();
       }
     }
@@ -140,7 +140,7 @@ app.SearchView = Backbone.View.extend({
 
   progressLoadingAnimation: function () {
     this.currentLoadingFrame++;
-    if(this.currentLoadingFrame === 4) {
+    if (this.currentLoadingFrame === 4) {
       this.currentLoadingFrame = 0;
     }
     this.$('#loading').text(this.loadingFrames[this.currentLoadingFrame]);
@@ -148,11 +148,11 @@ app.SearchView = Backbone.View.extend({
 
   hideLoadingIndicator: function () {
     var $loading = $('#loading');
-    if($loading.length) {
+    if ($loading.length) {
       $loading.parent().remove();
     }
 
-    if(this.loadingInterval) {
+    if (this.loadingInterval) {
       clearInterval(this.loadingInterval);
     }
   }

@@ -12,14 +12,14 @@ var FoodTrackerList = Backbone.Collection.extend({
     var tracker = this.find(function (model) {
       return model.attributes.resource_id === resourceId;
     });
-    if(!tracker && !quiet) {
+    if (!tracker && !quiet) {
       console.log('No calorie tracker found for resource id "' + resourceId + '"');
     }
     return tracker;
   },
 
   isTracking: function (resourceId) {
-    if(this.getTrackerByResourceId(resourceId, true)) {
+    if (this.getTrackerByResourceId(resourceId, true)) {
       return true;
     }
     return false;

@@ -22,7 +22,7 @@ var AutoResultList = Backbone.Collection.extend({
 
   // queries autocomplete for the given term
   autocomplete: function (query) {
-    if(query === this.query || query === '') return;
+    if (query === this.query || query === '') return;
     this.query = query;
     this.fetch();
   }

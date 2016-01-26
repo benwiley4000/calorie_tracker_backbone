@@ -11,7 +11,7 @@ var FoodList = Backbone.Collection.extend({
   acceptableComparatorTypes: ['item_name', 'brand_name', 'nutrient_value'],
 
   changeComparatorType: function (comparatorType) {
-    if(this.acceptableComparatorTypes.indexOf(comparatorType) > -1) {
+    if (this.acceptableComparatorTypes.indexOf(comparatorType) > -1) {
       this.comparatorType = comparatorType;
     }
   },

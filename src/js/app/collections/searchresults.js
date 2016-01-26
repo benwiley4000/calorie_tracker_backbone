@@ -34,9 +34,9 @@ var SearchResultList = Backbone.Collection.extend({
   },
 
   parse: function (response) {
-    if(response.results && response.results.length) {
+    if (response.results && response.results.length) {
       return response.results;
-    } else if(response.errors && response.errors.length && response.errors[0].message) {
+    } else if (response.errors && response.errors.length && response.errors[0].message) {
       this.trigger('error:search', response.errors[0].message);
     }
     return [];
@@ -44,7 +44,7 @@ var SearchResultList = Backbone.Collection.extend({
 
   // searches Nutritionix API for given term
   search: function (query) {
-    if(query === this.query || query === '') return;
+    if (query === this.query || query === '') return;
     this.isQueryExhausted = false;
     this.lastResultCount = 0;
     this.query = query;
@@ -62,17 +62,17 @@ var SearchResultList = Backbone.Collection.extend({
   // fetches the next set of search results; returns
   // false if we've reached the max load limit
   loadNextSet: function () {
-    if(this.isQueryExhausted) return false;
+    if (this.isQueryExhausted) return false;
 
     // compare current result count with last to see if query is exhausted
-    if(this.length === this.lastResultCount) {
+    if (this.length === this.lastResultCount) {
       this.isQueryExhausted = true;
       return false;
     }
 
     this.lastResultCount = this.length;
 
-    if((this.loadLimit * this.loadCount) >= 50) {
+    if ((this.loadLimit * this.loadCount) >= 50) {
       return false;
     }
     this.loadCount++;

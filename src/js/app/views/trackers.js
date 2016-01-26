@@ -29,7 +29,7 @@ app.TrackersView = Backbone.View.extend({
   render: function () {
     var $trackerList = this.$trackerList;
     $trackerList.html('');
-    if(app.searchResults.length) {
+    if (app.searchResults.length) {
       app.searchResults.each(function (model) {
         var view = new app.FoodResultView({ model: model });
         $trackerList.append(view.render().el);

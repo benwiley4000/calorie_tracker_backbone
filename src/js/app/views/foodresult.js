@@ -40,7 +40,7 @@ app.FoodResultView = Backbone.View.extend({
 
   // checks if new FoodTracker has same resource_id as this food result; if so, re-renders
   refreshAfterTracking: function (model) {
-    if(model.get('resource_id') === this.model.get('resource_id')) {
+    if (model.get('resource_id') === this.model.get('resource_id')) {
       this.render();
     }
   },

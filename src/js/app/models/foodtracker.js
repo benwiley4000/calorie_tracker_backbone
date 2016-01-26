@@ -14,7 +14,7 @@ app.FoodTracker = Backbone.Model.extend({
   },
 
   incrementServings: function (amount) {
-    if(!isNaN(amount)) {
+    if (!isNaN(amount)) {
       // cloning the table before re-writing ensures a change event
       // is fired on write from the parent Collection.
       var servingsTable = this.shallowCopyServingsTable();
