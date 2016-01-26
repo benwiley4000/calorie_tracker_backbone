@@ -23,7 +23,7 @@ app.TrackersView = Backbone.View.extend({
     this.listenTo(app.todos, 'all', this.render);
     */
 
-    app.foodTrackerList.fetch();
+    this.update();
   },
 
   render: function () {
@@ -39,8 +39,9 @@ app.TrackersView = Backbone.View.extend({
     }
   },
 
-  fetch: function () {
+  update: function () {
     app.foodTrackerList.fetch();
+    this.render();
   }
 
 });

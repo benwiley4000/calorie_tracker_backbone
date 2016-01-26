@@ -16,11 +16,13 @@ app.AppView = Backbone.View.extend({
   },
 
   openSearchView: function () {
+    this.searchView.clearSearchResults();
     this.searchView.$el.show();
     this.trackersView.$el.hide();
   },
 
   openTrackersView: function () {
+    this.trackersView.update();
     this.trackersView.$el.show();
     this.searchView.$el.hide();
   }

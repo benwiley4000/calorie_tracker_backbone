@@ -52,8 +52,12 @@ app.SearchView = Backbone.View.extend({
         $searchResults.append(view.render().el);
       });
     } else {
-      $searchResults.append($('<p class="none-found">No results found.</p>'));
+      this.displayNoneFoundMessage();
     }
+  },
+
+  displayNoneFoundMessage: function () {
+    this.$searchResults.html($('<p class="none-found">No results found.</p>'));
   },
 
   autocompleteOnInput: function () {
@@ -64,7 +68,9 @@ app.SearchView = Backbone.View.extend({
   },
 
   searchOnEnter: function (event) {
-    if(event.type !== 'click' && event.which !== ENTER_KEY) return;
+    if(event.type !== 'click' && event.which !== ENTER_KEY) {
+      return;
+    }
     this.$searchbar.blur();
     var query = this.$searchbar.val().trim();
     if(query) {
@@ -91,6 +97,11 @@ app.SearchView = Backbone.View.extend({
         this.displayLoadingIndicator();
       }
     }
+  },
+
+  clearSearchResults: function () {
+    this.$searchbar.val('');
+    this.displayNoneFoundMessage();
   },
 
   handleResultsLoadSuccess: function () {
