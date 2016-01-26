@@ -26,10 +26,16 @@ a {
   color: #77a346;
 }
 
-.search {
+.search,
+.trackers {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+}
+
+.trackers {
+  /* default setting, will be shown when selected in nav. */
+  display: none;
 }
 
 .search-prompt {
@@ -66,7 +72,8 @@ a {
   content: '\01f50d';
 }
 
-.search-results {
+.search-results,
+.tracker-list {
   flex-grow: 1;
   margin: 8px 15px 0 0;
   height: 100%;
@@ -149,11 +156,6 @@ a {
   text-align: center;
   width: 250px;
   margin: 0 auto 0 -135px;
-}
-
-.trackers {
-  /* default setting, will be shown when selected in nav. */
-  display: none;
 }
 
 ::selection {
