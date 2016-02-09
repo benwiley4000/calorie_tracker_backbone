@@ -44,11 +44,6 @@ a {
   flex-direction: column;
 }
 
-.trackers {
-  /* default setting, will be shown when selected in nav. */
-  display: none;
-}
-
 .search-prompt {
   display: block;
   margin-bottom: 4px;
@@ -87,7 +82,6 @@ a {
 .tracker-list {
   flex-grow: 1;
   margin: 8px 15px 0 0;
-  height: 100%;
   overflow: auto;
   border: 1px solid #d3d3d3;
   background-color: #f2f2f2;
@@ -167,6 +161,10 @@ a {
   text-align: center;
   width: 250px;
   margin: 0 auto 0 -135px;
+}
+
+.hidden {
+  display: none;
 }
 
 ::selection {

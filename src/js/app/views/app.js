@@ -17,14 +17,14 @@ app.AppView = Backbone.View.extend({
 
   openSearchView: function () {
     this.searchView.clearSearchResults();
-    this.searchView.$el.show();
-    this.trackersView.$el.hide();
+    this.searchView.$el.removeClass('hidden');
+    this.trackersView.$el.addClass('hidden');
   },
 
   openTrackersView: function () {
     this.trackersView.update();
-    this.trackersView.$el.show();
-    this.searchView.$el.hide();
+    this.trackersView.$el.removeClass('hidden');
+    this.searchView.$el.addClass('hidden');
   }
 
 });
