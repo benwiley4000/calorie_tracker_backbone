@@ -6,6 +6,8 @@ app.AppView = Backbone.View.extend({
   el: '#health-tracker-app',
 
   initialize: function () {
+    app.foods.fetch();
+
     this.searchView = new app.SearchView();
     this.trackersView = new app.TrackersView();
 

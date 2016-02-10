@@ -7,10 +7,8 @@ app.TrackersView = Backbone.View.extend({
   initialize: function () {
     this.$trackerList = this.$('#tracker-list');
 
-    this.listenTo(app.foodTrackerList, 'remove', this.render);
+    this.listenTo(app.foods, 'remove', this.render);
 
-    app.foodTrackerList.fetch();
-    app.foods.fetch();
     this.render();
   },
 

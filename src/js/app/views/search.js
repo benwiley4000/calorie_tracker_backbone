@@ -30,7 +30,6 @@ app.SearchView = Backbone.View.extend({
     this.listenTo(app.autoResults, 'sync', this.updateAutocomplete);
     this.listenTo(app.searchResults, 'sync', this.retrieveSearchResults);
 
-    app.foodTrackerList.fetch();
     this.retrieveSearchResults();
   },
 

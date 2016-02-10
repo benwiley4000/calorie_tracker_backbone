@@ -13,13 +13,13 @@ app.FoodResultView = Backbone.View.extend({
 
   initialize: function () {
     this.$el.addClass('food-result');
-    this.listenTo(app.foodTrackerList, 'add', this.refreshAfterTracking);
+    this.listenTo(app.foods, 'add', this.refreshAfterTracking);
   },
 
   render: function () {
     var attributes = this.model.attributes;
 
-    var isTracking = app.foodTrackerList.isTracking(attributes.resource_id);
+    var isTracking = app.foods.tracking(attributes.resource_id);
     var weekCalCount = 100; // TODO: IMPLEMENT THIS FOR REAL!!!
 
     var props = {
@@ -48,24 +48,22 @@ app.FoodResultView = Backbone.View.extend({
 
   // tracks this food in localStorage
   trackStats: function () {
-    app.foods.create(this.model.attributes);
-    app.foodTrackerList.create({
-      resource_id: this.model.get('resource_id')
-    });
+    if (!app.foods.tracking(this.model.get('resource_id'))) {
+      app.foods.create(this.model.attributes);
+    }
   },
 
-  // if user confirms, removes tracker from localStorage
+  // if user confirms, removes food from localStorage
   stopTracking: function() {
     var message =
       'Are you sure you want to delete all data for ' +
       this.model.get('item_name') +
       '?';
     if (window.confirm(message)) {
-      var matchingTrackers = app.foodTrackerList.filter(function (tracker) {
-        return tracker.get('resource_id') === this.model.get('resource_id');
-      }, this);
-      matchingTrackers.forEach(function (tracker) {
-        app.foodTrackerList.remove(tracker);
+      app.foods.filter(function (food) {
+        return food.get('resource_id') === this.model.get('resource_id');
+      }, this).forEach(function (food) {
+        app.foods.remove(food);
       });
       this.render();
     }

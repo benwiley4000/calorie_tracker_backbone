@@ -7,7 +7,7 @@ var app = app || {};
  */
 var SearchResultList = Backbone.Collection.extend({
 
-  model: app.FoodProfile,
+  model: app.Food,
 
   query: '',
 

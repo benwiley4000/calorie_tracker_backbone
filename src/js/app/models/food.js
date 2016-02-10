@@ -1,6 +1,6 @@
 var app = app || {};
 
-app.FoodTracker = Backbone.Model.extend({
+app.Food = Backbone.Model.extend({
 
   defaults: {
     servingsTable: []

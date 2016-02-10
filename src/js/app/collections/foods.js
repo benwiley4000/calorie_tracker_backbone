@@ -2,7 +2,7 @@ var app = app || {};
 
 var FoodList = Backbone.Collection.extend({
 
-  model: app.FoodProfile,
+  model: app.Food,
 
   localStorage: new Backbone.LocalStorage('foods-backbone'),
 
@@ -18,6 +18,13 @@ var FoodList = Backbone.Collection.extend({
 
   comparator: function (food) {
     return food.get(this.comparatorType);
+  },
+
+  // returns true if the given resourceId is contained, false otherwise
+  tracking: function (resourceId) {
+    return this.some(function (model) {
+      return model.attributes.resource_id === resourceId;
+    });
   }
 
 });
