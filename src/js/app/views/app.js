@@ -5,14 +5,27 @@ app.AppView = Backbone.View.extend({
 
   el: '#health-tracker-app',
 
-  events: {
-    // 'click #[searchNavButton]': 'openSearchView',
-    // 'click #[trackersNavButton]': 'openTrackersView'
-  },
-
   initialize: function () {
     this.searchView = new app.SearchView();
     this.trackersView = new app.TrackersView();
+
+    this.on('pageswap', this.swapView);
+  },
+
+  swapView: function () {
+    this.updateNavBar();
+    if (app.page === 'trackers') {
+      this.openTrackersView();
+    } else {
+      this.openSearchView();
+    }
+  },
+
+  updateNavBar: function () {
+    this.$('.page-link')
+      .removeClass('selected')
+      .filter('[href="#/' + (app.page || 'search') + '"]')
+      .addClass('selected');
   },
 
   openSearchView: function () {

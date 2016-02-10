@@ -7,11 +7,20 @@
   <link rel="stylesheet" href="public/main.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dosis:500,700">
 </head>
-<body>
+<body id="health-tracker-app">
   <header>
     <h2>Track Your Calories!</h2>
+    <ul id="pages-nav" class="pages-nav">
+      <li>
+        <a class="page-link selected" href="#/search">Search</a>
+      </li>
+      
+      <li>
+        <a class="page-link" href="#/trackers">Trackers</a>
+      </li>
+    </ul>
   </header>
-  <main id="health-tracker-app">
+  <main class="main-app">
     <div id="search" class="search">
       <label for="searchbar" class="search-prompt">Search for foods you eat...</label>
       <div class="searchbar-wrapper">
