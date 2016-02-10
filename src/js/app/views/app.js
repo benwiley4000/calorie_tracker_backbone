@@ -35,7 +35,7 @@ app.AppView = Backbone.View.extend({
   },
 
   openTrackersView: function () {
-    this.trackersView.update();
+    this.trackersView.render();
     this.trackersView.$el.removeClass('hidden');
     this.searchView.$el.addClass('hidden');
   }

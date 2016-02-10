@@ -7,7 +7,8 @@ app.FoodResultView = Backbone.View.extend({
   template: _.template($('#food-result-template').html()),
 
   events: {
-    'click .track-food-button.untracked': 'trackStats'
+    'click .track-food-button.untracked': 'trackStats',
+    'click .track-food-button.tracked': 'stopTracking'
   },
 
   initialize: function () {
@@ -51,6 +52,23 @@ app.FoodResultView = Backbone.View.extend({
     app.foodTrackerList.create({
       resource_id: this.model.get('resource_id')
     });
+  },
+
+  // if user confirms, removes tracker from localStorage
+  stopTracking: function() {
+    var message =
+      'Are you sure you want to delete all data for ' +
+      this.model.get('item_name') +
+      '?';
+    if (window.confirm(message)) {
+      var matchingTrackers = app.foodTrackerList.filter(function (tracker) {
+        return tracker.get('resource_id') === this.model.get('resource_id');
+      }, this);
+      matchingTrackers.forEach(function (tracker) {
+        app.foodTrackerList.remove(tracker);
+      });
+      this.render();
+    }
   }
 
 });

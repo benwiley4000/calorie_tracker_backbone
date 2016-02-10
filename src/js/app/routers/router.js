@@ -18,4 +18,3 @@ var PageSwapper = Backbone.Router.extend({
 });
 
 app.pageRouter = new PageSwapper();
-Backbone.history.start();
