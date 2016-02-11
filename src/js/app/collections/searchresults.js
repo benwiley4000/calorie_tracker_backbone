@@ -25,6 +25,9 @@ var SearchResultList = Backbone.Collection.extend({
   // calls for loading the next set will simply return false.
   isQueryExhausted: false,
 
+  // will be marked true if the last query resulted in an error.
+  lastQueryWasUnsuccessful: false,
+
   url: function () {
     // we impose a hard limit of 50 results, since the API doesn't allow
     // anything greater than that.
@@ -65,7 +68,7 @@ var SearchResultList = Backbone.Collection.extend({
     if (this.isQueryExhausted) return false;
 
     // compare current result count with last to see if query is exhausted
-    if (this.length === this.lastResultCount) {
+    if (this.length === this.lastResultCount && !this.lastQueryWasUnsuccessful) {
       this.isQueryExhausted = true;
       return false;
     }
@@ -78,9 +81,12 @@ var SearchResultList = Backbone.Collection.extend({
     this.loadCount++;
     this.fetch({
       success: function () {
+        this.lastQueryWasUnsuccessful = false;
         this.trigger('success:loadresults');
       }.bind(this),
       error: function () {
+        this.loadCount--;
+        this.lastQueryWasUnsuccessful = true;
         this.trigger('error:loadresults');
       }.bind(this)
     });
