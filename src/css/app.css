@@ -23,6 +23,10 @@ header,
 main,
 footer {
   padding: 0 15px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  max-width: 100%;
+  width: 840px;
 }
 
 a {
@@ -51,7 +55,6 @@ a {
   flex-grow: 1;
   display: flex;
   flex-direction: row;
-  box-sizing: border-box;
 }
 
 .search,
@@ -193,6 +196,25 @@ a {
   right: 5%;
 }
 
+.details-panel-close {
+  font-size: 1.4em;
+  color: #808080;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-right: 15px;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.details-panel-close::after {
+  content: '\00274C';
+}
+
+.details-panel-close:hover {
+  color: #666;
+}
+
 .hidden {
   display: none;
 }
@@ -215,8 +237,6 @@ a {
 }
 
 @media screen and (min-width: 570px) {
-  header,
-  footer,
   .search,
   .trackers {
     width: 440px;
@@ -227,6 +247,18 @@ a {
 @media screen and (min-width: 730px) {
   .details-panel {
     box-shadow: none;
-    position: initial;
+    position: relative;
+    top: initial;
+    bottom: initial;
+    left: initial;
+    right: initial;
+  }
+
+  .details-panel-close {
+    display: none;
+  }
+
+  .details-panel:hover .details-panel-close {
+    display: initial;
   }
 }
