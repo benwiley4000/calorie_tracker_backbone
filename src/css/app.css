@@ -22,7 +22,7 @@ body {
 header,
 main,
 footer {
-  margin: 0 15px;
+  padding: 0 15px;
 }
 
 a {
@@ -51,6 +51,7 @@ a {
   flex-grow: 1;
   display: flex;
   flex-direction: row;
+  box-sizing: border-box;
 }
 
 .search,
@@ -179,6 +180,19 @@ a {
   margin: 0 auto 0 -135px;
 }
 
+.details-panel {
+  flex-grow: 1;
+  border: 1px solid #d3d3d3;
+  background-color: #f2f2f2;
+  box-sizing: border-box;
+  box-shadow: rgba(0, 0, 0, 0.4) 0 0 5px 4px;
+  position: absolute;
+  top: 5%;
+  bottom: 5%;
+  left: 5%;
+  right: 5%;
+}
+
 .hidden {
   display: none;
 }
@@ -202,8 +216,17 @@ a {
 
 @media screen and (min-width: 570px) {
   header,
-  main,
-  footer {
+  footer,
+  .search,
+  .trackers {
     width: 440px;
+    max-width: 440px;
+  }
+}
+
+@media screen and (min-width: 730px) {
+  .details-panel {
+    box-shadow: none;
+    position: initial;
   }
 }
