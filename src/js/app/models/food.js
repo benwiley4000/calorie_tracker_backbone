@@ -2,45 +2,25 @@ var app = app || {};
 
 app.Food = Backbone.Model.extend({
 
-  defaults: {
-    servingsTable: []
+  getLogData: function (options) {
+    options = options || {};
+    return app.kcalLog.getData({
+      resourceId: this.get('resource_id'),
+      startDate: options.startDate,
+      endDate: options.endDate
+    });
   },
 
-  // TODO: allow parameter(s) for selecting specific time window
-  getTotalServings: function () {
-    return _.reduce(this.get('servingsTable'), function (memo, entry) {
-      return memo + entry.amount;
-    }, 0);
-  },
-
-  incrementServings: function (amount) {
-    if (!isNaN(amount)) {
-      // cloning the table before re-writing ensures a change event
-      // is fired on write from the parent Collection.
-      var servingsTable = this.shallowCopyServingsTable();
-
-      servingsTable.push({
-        amount: amount,
-        timestamp: new Date()
-      });
-
-      this.save({
-        servingsTable: servingsTable
+  addLogEntry: function (kcalCount, date) {
+    if (!isNaN(kcalCount) && !isNaN(date.getTime())) {
+      app.kcalLog.create({
+        resourceId: this.get('resource_id'),
+        kcalCount: kcalCount,
+        date: date
       });
     } else {
-      console.log('Serving increment value "' + amount + '" is not a number.');
+      console.error('Invalid log entry data:', kcalCount, date);
     }
-  },
-
-  // the most efficient way to shallow copy an array, if slightly verbose
-  shallowCopyServingsTable: function () {
-    var servingsTable = this.get('servingsTable');
-    var len = servingsTable.length;
-    var copy = Array(len);
-    for(var i = 0; i < len; i++) {
-      copy[i] = servingsTable[i];
-    }
-    return copy;
   }
 
 });

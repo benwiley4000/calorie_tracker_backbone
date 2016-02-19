@@ -20,7 +20,11 @@ app.FoodResultView = Backbone.View.extend({
     var attributes = this.model.attributes;
 
     var isTracking = app.foods.tracking(attributes.resource_id);
-    var weekCalCount = 100; // TODO: IMPLEMENT THIS FOR REAL!!!
+    var oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+    var weekCalCount = this.model.getLogData({
+      startDate: oneWeekAgo
+    }).totalCalories;
 
     var props = {
       item_name: attributes.item_name,
