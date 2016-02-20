@@ -58,19 +58,19 @@
     <div class="food-result-description">
       <% if(brand_name) { %>
         <div>
-          <span><strong>Brand: </strong></span>
+          <span><strong>Brand:</strong></span>
           <span><%= brand_name %></span>
         </div>
       <% } %>
       <% if(nutrient_value && nutrient_uom === 'kcal') { %>
         <div>
-          <span><strong>Calories: </strong></span>
+          <span><strong>Calories:</strong></span>
           <span><%= nutrient_value %></span>
         </div>
       <% } %>
       <% if(serving_qty) { %>
         <div>
-          <span><strong>Serving size: </strong></span>
+          <span><strong>Serving size:</strong></span>
           <span><%= serving_qty %> <%= serving_uom %></span>
         </div>
       <% } %>
@@ -85,7 +85,41 @@
     </div>
   </script>
 
-  <script type="text/template" id="timeline-view-template">
+  <script type="text/template" id="food-calories-history">
+    <div class="food-calories-history">
+      <h1 class="food-calories-history-title"><%= name %></h1>
+      <img class="food-calories-history-image" src="<%= image %>" alt="<%= name %>">
+      <div class="food-calories-total">
+        <span><strong>Total Calories Consumed:</strong></span>
+        <span><%= totalCalories %></span>
+      </div>
+      <div class="food-calories-today">
+        <span><strong>Calories Consumed Today:</strong></span>
+        <span><%= todayCalories %></span>
+      </div>
+      <h2 class="history-list-head">Entries</h2>
+      <div class="history-list"></div>
+    </div>
+  </script>
+
+  <script type="text/template" id="day-calories-history">
+    <div class="day-calories-history">
+      <h1 class="day-calories-history-title"><%= date %></h1>
+      <div class="day-calories">
+        <span><strong>Calories Consumed:</strong></span>
+        <span><%= calories %></span>
+      </div>
+      <h2 class="history-list-head">Entries</h2>
+      <div class="history-list"></div>
+    </div>
+  </script>
+
+  <script type="text/template" id="calories-history-entry">
+    <div class="calories-history-entry-description"><%= name %>: <%= calories %></div>
+    <div class="calories-history-entry-date"><%= date %></div>
+  </script>
+
+  <script type="text/template" id="calendar-view-template">
     // TODO: implement timeline view (find library?) showing
     // Calorie consumption over time
   </script>
