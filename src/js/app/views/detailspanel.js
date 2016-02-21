@@ -18,12 +18,14 @@ app.DetailsPanelView = Backbone.View.extend({
   },
 
   render: function (options) {
+    var logData;
+    var props;
     if (options.format === 'food') {
 
       var food = options.model;
-      var logData = food.getLogData();
       var todaysDateString = new Date().toDateString();
-      var props = {
+      logData = food.getLogData();
+      props = {
         name: food.get('item_name'),
         image: food.get('thumbnail'),
         totalCalories: logData.totalCalories,
@@ -34,11 +36,11 @@ app.DetailsPanelView = Backbone.View.extend({
     } else if (options.format === 'day') {
 
       var date = options.date;
-      var logData = app.kcalLog.getData({
+      logData = app.kcalLog.getData({
         startDate: date,
         endDate: date
       });
-      var props = {
+      props = {
         date: date.toDateString(),
         calories: logData.totalCalories
       };
