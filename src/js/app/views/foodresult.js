@@ -7,6 +7,7 @@ app.FoodResultView = Backbone.View.extend({
   template: _.template($('#food-result-template').html()),
 
   events: {
+    'click': 'openDetails',
     'click .track-food-button.untracked': 'trackStats',
     'click .track-food-button.tracked': 'stopTracking'
   },
@@ -41,6 +42,15 @@ app.FoodResultView = Backbone.View.extend({
 
     this.$el.html(this.template(props));
     return this;
+  },
+
+  openDetails: function () {
+    if (app.foods.tracking(this.model.get('resource_id'))) {
+      app.appView.trigger('opendetails', {
+        format: 'food',
+        model: this.model
+      });
+    }
   },
 
   // checks if new FoodTracker has same resource_id as this food result; if so, re-renders
