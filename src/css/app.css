@@ -188,12 +188,11 @@ a {
   border: 1px solid #d3d3d3;
   background-color: #f2f2f2;
   box-sizing: border-box;
-  box-shadow: rgba(0, 0, 0, 0.4) 0 0 5px 4px;
+  box-shadow: rgba(0, 0, 0, .4) 0 4px 10px 1px;
   position: absolute;
-  top: 5%;
-  bottom: 5%;
-  left: 5%;
-  right: 5%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .details-panel-close {
@@ -213,6 +212,18 @@ a {
 
 .details-panel-close:hover {
   color: #666;
+}
+
+.calories-history {
+  background-color: #fff;
+  border: 1px solid #808080;
+  margin: 7px;
+  box-sizing: border-box;
+  padding: 0 15px 15px;
+}
+
+.food-calories-history-image {
+  padding-bottom: 10px;
 }
 
 .hidden {
@@ -249,10 +260,11 @@ a {
     box-shadow: none;
     position: relative;
     top: initial;
-    bottom: initial;
     left: initial;
-    right: initial;
+    transform: initial;
     max-width: 370px;
+    align-self: flex-start;
+    margin-top: 8px;
   }
 
   .details-panel-close {

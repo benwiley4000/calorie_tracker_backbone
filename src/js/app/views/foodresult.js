@@ -44,12 +44,16 @@ app.FoodResultView = Backbone.View.extend({
     return this;
   },
 
-  openDetails: function () {
+  openDetails: function (e) {
     if (app.foods.tracking(this.model.get('resource_id'))) {
       app.appView.trigger('opendetails', {
         format: 'food',
         model: this.model
       });
+      /* keep the appView from responding to the click by
+       * closing the details panel.
+       */
+      e.stopPropagation();
     }
   },
 
@@ -64,13 +68,13 @@ app.FoodResultView = Backbone.View.extend({
   trackStats: function (e) {
     if (!app.foods.tracking(this.model.get('resource_id'))) {
       app.foods.create(this.model.attributes);
-      // we don't want the details pane to immediately open
+      // we don't want the details panel to immediately open
       e.stopPropagation();
     }
   },
 
   // if user confirms, removes food from localStorage
-  stopTracking: function() {
+  stopTracking: function (e) {
     var message =
       'Are you sure you want to delete all data for ' +
       this.model.get('item_name') +
@@ -82,6 +86,11 @@ app.FoodResultView = Backbone.View.extend({
         app.foods.remove(food);
       });
       this.render();
+    } else {
+      /* we want to prevent the details panel from opening
+       * if the user decides not to stop tracking.
+       */
+      e.stopPropagation();
     }
   }
 

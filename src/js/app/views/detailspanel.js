@@ -9,6 +9,7 @@ app.DetailsPanelView = Backbone.View.extend({
   dayTemplate: _.template($('#day-calories-history-template').html()),
 
   events: {
+    'click': 'preventClose',
     'click #details-panel-close': 'close'
   },
 
@@ -48,6 +49,13 @@ app.DetailsPanelView = Backbone.View.extend({
       throw new Error('Unrecognized details panel format: ' + options.format || 'undefined');
 
     }
+  },
+
+  /* keeps appView from closing the details panel in
+   * response to a random click inside the actual panel
+   */
+  preventClose: function (e) {
+    e.stopPropagation();
   },
 
   close: function () {

@@ -5,6 +5,10 @@ app.AppView = Backbone.View.extend({
 
   el: '#health-tracker-app',
 
+  events: {
+    'click': 'handleClick'
+  },
+
   initialize: function () {
     app.foods.fetch();
     app.kcalLog.fetch();
@@ -57,6 +61,15 @@ app.AppView = Backbone.View.extend({
 
   closeDetails: function () {
     this.detailsPanelView.$el.addClass('hidden');
+  },
+
+  handleClick: function () {
+    /* if the user clicks outside of the details panel (and it's
+     * currently styled as a floating window) then close it.
+     */
+    if (this.detailsPanelView.$el.css('position') === 'absolute') {
+      this.closeDetails();
+    }
   }
 
 });
