@@ -252,6 +252,7 @@ a {
     bottom: initial;
     left: initial;
     right: initial;
+    max-width: 370px;
   }
 
   .details-panel-close {

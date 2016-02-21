@@ -47,8 +47,12 @@ app.AppView = Backbone.View.extend({
   },
 
   openDetails: function (options) {
-    this.detailsPanelView.render(options);
-    this.detailsPanelView.$el.removeClass('hidden');
+    try {
+      this.detailsPanelView.render(options);
+      this.detailsPanelView.$el.removeClass('hidden');
+    } catch (e) {
+      console.error(e);
+    }
   },
 
   closeDetails: function () {

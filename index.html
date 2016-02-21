@@ -43,7 +43,9 @@
     </div>
     <div id="details-panel" class="details-panel hidden">
       <div id="details-panel-close" class="details-panel-close"></div>
-      <!-- Displays details about a particular item when that item is selected -->
+      <div id="calories-history" class="calories-history">
+        <!-- Displays calories history when a food or day is selected -->
+      </div>
     </div>
   </main>
   <footer>
@@ -86,32 +88,28 @@
   </script>
 
   <script type="text/template" id="food-calories-history-template">
-    <div class="food-calories-history">
-      <h1 class="food-calories-history-title"><%= name %></h1>
-      <img class="food-calories-history-image" src="<%= image %>" alt="<%= name %>">
-      <div class="food-calories-total">
-        <span><strong>Total Calories Consumed:</strong></span>
-        <span><%= totalCalories %></span>
-      </div>
-      <div class="food-calories-today">
-        <span><strong>Calories Consumed Today:</strong></span>
-        <span><%= todayCalories %></span>
-      </div>
-      <h2 class="history-list-head">Entries</h2>
-      <div class="history-list"></div>
+    <h1 class="food-calories-history-title"><%= name %></h1>
+    <img class="food-calories-history-image" src="<%= image %>" alt="<%= name %>">
+    <div class="food-calories-total">
+      <span><strong>Total Calories Consumed:</strong></span>
+      <span><%= totalCalories %></span>
     </div>
+    <div class="food-calories-today">
+      <span><strong>Calories Consumed Today:</strong></span>
+      <span><%= todayCalories %></span>
+    </div>
+    <h2 class="history-list-head">Entries</h2>
+    <div class="history-list"></div>
   </script>
 
   <script type="text/template" id="day-calories-history-template">
-    <div class="day-calories-history">
-      <h1 class="day-calories-history-title"><%= date %></h1>
-      <div class="day-calories">
-        <span><strong>Calories Consumed:</strong></span>
-        <span><%= calories %></span>
-      </div>
-      <h2 class="history-list-head">Entries</h2>
-      <div class="history-list"></div>
+    <h1 class="day-calories-history-title"><%= date %></h1>
+    <div class="day-calories">
+      <span><strong>Calories Consumed:</strong></span>
+      <span><%= calories %></span>
     </div>
+    <h2 class="history-list-head">Entries</h2>
+    <div class="history-list"></div>
   </script>
 
   <script type="text/template" id="calories-history-entry-template">

@@ -61,9 +61,11 @@ app.FoodResultView = Backbone.View.extend({
   },
 
   // tracks this food in localStorage
-  trackStats: function () {
+  trackStats: function (e) {
     if (!app.foods.tracking(this.model.get('resource_id'))) {
       app.foods.create(this.model.attributes);
+      // we don't want the details pane to immediately open
+      e.stopPropagation();
     }
   },
 
