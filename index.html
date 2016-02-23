@@ -14,7 +14,6 @@
       <li>
         <a class="page-link selected" href="#/search">Search</a>
       </li>
-      
       <li>
         <a class="page-link" href="#/trackers">Trackers</a>
       </li>
@@ -58,19 +57,19 @@
          src="<%= thumbnail %>"
          alt="<%= item_name %><%= brand_name ? ' from' + brand_name : '' %>">
     <div class="food-result-description">
-      <% if(brand_name) { %>
+      <% if (brand_name) { %>
         <div>
           <span><strong>Brand:</strong></span>
           <span><%= brand_name %></span>
         </div>
       <% } %>
-      <% if(nutrient_value && nutrient_uom === 'kcal') { %>
+      <% if (nutrient_value && nutrient_uom === 'kcal') { %>
         <div>
           <span><strong>Calories:</strong></span>
           <span><%= nutrient_value %></span>
         </div>
       <% } %>
-      <% if(serving_qty) { %>
+      <% if (serving_qty) { %>
         <div>
           <span><strong>Serving size:</strong></span>
           <span><%= serving_qty %> <%= serving_uom %></span>
@@ -78,9 +77,9 @@
       <% } %>
       <div>
         <span class="track-food-button <%= isTracking ? 'tracked' : 'untracked' %>">
-          <strong><%= isTracking ? 'Tracking:'  : 'Track this food' %></strong>
+          <strong><%= isTracking ? 'Tracking:' : 'Track this food' %></strong>
         </span>
-        <% if(isTracking) { %>
+        <% if (isTracking) { %>
           <span><%= weekCalCount %> Cal in last week</span>
         <% } %>
       </div>
@@ -117,11 +116,41 @@
     <div class="calories-history-entry-date"><%= date %></div>
   </script>
 
+  <script type="text/template" id="log-entry-form-template">
+    <h2 class="log-entry-form-head">
+      <%= action === 'edit' ? 'Edit' : 'New' %> log entry for <%= itemName %>
+    </h2>
+    <div class="form-field">
+      <label>Amount</label>
+      <input id="food-amount-input" type="number" step="0.1" min="0.1" required>
+      <select id="food-unit-select">
+        <option value="kcal" <%= foodUnit === 'kcal' ? 'selected' : '' %>>Calories</option>
+        <option value="serving" <%= foodUnit === 'serving' ? 'selected' : '' %>>Calories</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label>Date</label>
+      <input id="food-consumption-date-input" type="date" value="<%= date %>" max="<%= new Date().toDateInputValue() =>" required>
+    </div>
+    <div><button id="log-entry-form-submit" class="log-entry-form-submit">Confirm</button></div>
+    <% if (action === 'edit') { %>
+      <div id="delete-log-entry" class="delete-log-entry">Delete</div>
+    <% } %>
+  </script>
+
   <script type="text/template" id="calendar-view-template">
     // TODO: implement timeline view (find library?) showing
     // Calorie consumption over time
   </script>
 
+  <script>
+    /* inspired by http://stackoverflow.com/a/13052187/4956731.
+     * intentionally ignores time zone.
+     */
+    Date.prototype.toDateInputValue = function () {
+      return this.toJSON().slice(0, 10);
+    };
+  </script>
   <script src="public/main.js"></script>
 </body>
 </html>
