@@ -40,10 +40,16 @@
         <!-- Locally stored food trackers will be displayed here. -->
       </div>
     </div>
-    <div id="details-panel" class="details-panel hidden">
-      <div id="details-panel-close" class="details-panel-close"></div>
-      <div id="calories-history" class="calories-history">
+    <div id="details-panel" class="details-panel popup-window hidden">
+      <div id="details-panel-close" class="close"></div>
+      <div id="calories-history" class="calories-history window-contents">
         <!-- Displays calories history when a food or day is selected -->
+      </div>
+    </div>
+    <div id="log-entry-form-container" class="log-entry-form-container popup-window hidden">
+      <div id="log-entry-form-close" class="close"></div>
+      <div id="log-entry-form" class="log-entry-form window-contents">
+        <!-- Prompts user to enter data for a log entry -->
       </div>
     </div>
   </main>
@@ -134,7 +140,7 @@
     </div>
     <div><button id="log-entry-form-submit" class="log-entry-form-submit">Confirm</button></div>
     <% if (action === 'edit') { %>
-      <div id="delete-log-entry" class="delete-log-entry">Delete</div>
+      <div id="log-entry-form-delete" class="log-entry-form-delete">Delete</div>
     <% } %>
   </script>
 
