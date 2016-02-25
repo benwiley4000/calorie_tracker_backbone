@@ -72,9 +72,38 @@ app.LogEntryView = Backbone.View.extend({
     var dateInput = this.$('#food-consumption-date-input').get(0);
 
     if (foodAmountInput.checkValidity() && dateInput.checkValidity()) {
-      // submit
+
+      var food = this.food;
+
+      var foodAmount = foodAmountInput.value;
+      var foodUnit = foodUnitSelect.value;
+      var kcalCount;
+      if (foodUnit === 'servings') {
+        kcalCount = food.get('serving_qty');
+      } else {
+        kcalCount = foodAmount;
+      }
+
+      var date = new Date(dateInput.value);
+
+      var entry = this.entry;
+      if (entry) {
+        entry.setCalorieCount(kcalCount);
+        entry.setDate(date);
+      } else {
+        app.log.create({
+          resourceId: food.get('resource_id'),
+          kcalCount: kcalCount,
+          date: date
+        });
+      }
+
+      // create success message notification
+
     } else {
+
       // create error message notification
+      
     }
   },
 
