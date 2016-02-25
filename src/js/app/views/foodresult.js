@@ -40,8 +40,6 @@ app.FoodResultView = Backbone.View.extend({
       weekCalCount: weekCalCount
     };
 
-    console.log(props);
-
     this.$el.html(this.template(props));
     return this;
   },

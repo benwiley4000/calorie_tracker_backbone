@@ -4,9 +4,7 @@ app.LogEntryView = Backbone.View.extend({
 
   el: '#log-entry-form-container',
 
-  foodTemplate: _.template($('#food-calories-history-template').html()),
-
-  dayTemplate: _.template($('#day-calories-history-template').html()),
+  template: _.template($('#log-entry-form-template').html()),
 
   events: {
     'click': 'preventClose',
@@ -19,17 +17,20 @@ app.LogEntryView = Backbone.View.extend({
   initialize: function () {
     this.$logEntryForm = this.$('#log-entry-form');
 
+    this.action = null;
     this.entry = null;
     this.food = null;
   },
 
   open: function (options) {
-    if (options.action === 'create') {
+    var action = options.action;
+
+    if (action === 'new') {
 
       this.entry = null;
       this.food = options.food;
 
-    } else if (options.action === 'edit') {
+    } else if (action === 'edit') {
 
       var entry = this.entry = options.entry;
       this.food = app.foods.get(entry.get('resource_id'));
@@ -40,11 +41,22 @@ app.LogEntryView = Backbone.View.extend({
 
     }
 
+    this.action = action;
     this.render();
   },
 
   render: function () {
-    // pass for now
+    var entry = this.entry;
+    var food = this.food;
+
+    var props = {
+      itemName: food.get('item_name'),
+      action: entry ? 'edit' : 'new',
+      kcalCount: entry ? entry.get('kcalCount') : null,
+      date: entry ? entry.get('date') : new Date()
+    };
+
+    this.$logEntryForm.html(this.template(props));
   },
 
   /* keeps appView from closing the log entry form in
