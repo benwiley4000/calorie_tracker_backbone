@@ -103,7 +103,7 @@ app.LogEntryView = Backbone.View.extend({
     } else {
 
       // create error message notification
-      
+
     }
   },
 
@@ -120,7 +120,7 @@ app.LogEntryView = Backbone.View.extend({
   },
 
   close: function () {
-    app.appView.trigger('closeLogEntry');
+    app.appView.trigger('closelogentry');
   },
 
   convertAmount: function () {

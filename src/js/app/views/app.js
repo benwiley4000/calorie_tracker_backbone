@@ -16,10 +16,13 @@ app.AppView = Backbone.View.extend({
     this.searchView = new app.SearchView();
     this.trackersView = new app.TrackersView();
     this.detailsPanelView = new app.DetailsPanelView();
+    this.logEntryView = new app.LogEntryView();
 
     this.on('pageswap', this.swapView);
     this.on('opendetails', this.openDetails);
     this.on('closedetails', this.closeDetails);
+    this.on('openlogentry', this.openLogEntry);
+    this.on('closelogentry', this.closeLogEntry);
   },
 
   swapView: function () {
@@ -63,6 +66,19 @@ app.AppView = Backbone.View.extend({
     this.detailsPanelView.$el.addClass('hidden');
   },
 
+  openLogEntry: function (options) {
+    try {
+      this.logEntryView.open(options);
+      this.logEntryView.$el.removeClass('hidden');
+    } catch (e) {
+      console.error(e);
+    }
+  },
+
+  closeLogEntry: function () {
+    this.logEntryView.$el.addClass('hidden');
+  },
+
   handleClick: function () {
     /* if the user clicks outside of the details panel (and it's
      * currently styled as a floating window) then close it.
@@ -70,6 +86,8 @@ app.AppView = Backbone.View.extend({
     if (this.detailsPanelView.$el.css('position') === 'absolute') {
       this.closeDetails();
     }
+
+    this.closeLogEntry();
   }
 
 });
