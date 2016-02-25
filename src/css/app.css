@@ -226,6 +226,20 @@ a {
   padding-bottom: 10px;
 }
 
+.form-field {
+  white-space: nowrap;
+  padding: 6px 0;
+}
+
+.form-field label {
+  font-weight: bold;
+}
+
+.serving-size-notice {
+  font-style: italic;
+  padding-bottom: 6px;
+}
+
 .hidden {
   display: none;
 }

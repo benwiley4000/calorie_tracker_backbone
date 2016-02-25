@@ -3,7 +3,7 @@ var app = app || {};
 app.LogEntry = Backbone.Model.extend({
 
   constructor: function () {
-    arguments[0].date = app.LogEntry.getAdjustedDate(arguments[0].date);
+    arguments[0].date = app.LogEntry.getAdjustedDate(new Date(arguments[0].date));
     Backbone.Model.apply(this, arguments);
   },
   

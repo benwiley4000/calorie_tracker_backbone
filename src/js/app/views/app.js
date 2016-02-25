@@ -56,6 +56,7 @@ app.AppView = Backbone.View.extend({
   openDetails: function (options) {
     try {
       this.detailsPanelView.render(options);
+      this.closeLogEntry();
       this.detailsPanelView.$el.removeClass('hidden');
     } catch (e) {
       console.error(e);
@@ -69,6 +70,7 @@ app.AppView = Backbone.View.extend({
   openLogEntry: function (options) {
     try {
       this.logEntryView.open(options);
+      this.closeDetails();
       this.logEntryView.$el.removeClass('hidden');
     } catch (e) {
       console.error(e);
