@@ -129,7 +129,7 @@
     </h2>
     <div class="form-field">
       <label>Amount</label>
-      <input id="food-amount-input" type="number" step="0.1" min="0.1" required>
+      <input class="food-amount-input" id="food-amount-input" type="number" step="0.1" min="0.1" required>
       <select id="food-unit-select">
         <option value="kcal" <%= selectedUnit === 'kcal' || disableServings ? 'selected' : '' %>>Calories</option>
         <option value="serving" <%= selectedUnit === 'serving' && !disableServings ? 'selected' : '' %> <%= disableServings ? 'disabled' : '' %>>servings</option>
@@ -146,7 +146,9 @@
              max="<%= (new Date()).toDateInputValue() %>"
              required>
     </div>
-    <div><button id="log-entry-form-submit" class="log-entry-form-submit">Confirm</button></div>
+    <div class="log-entry-form-submit-container">
+      <button id="log-entry-form-submit" class="log-entry-form-submit">Confirm</button>
+    </div>
     <% if (action === 'edit') { %>
       <div id="log-entry-form-delete" class="log-entry-form-delete">Delete</div>
     <% } %>
