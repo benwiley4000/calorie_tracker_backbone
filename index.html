@@ -89,6 +89,13 @@
           <span><%= weekCalCount %> Cal in last week</span>
         <% } %>
       </div>
+      <% if (isTracking) { %>
+        <div>
+          <span class="new-log-entry-button">
+            <strong>New log entry</strong>
+          </span>
+        </div>
+      <% } %>
     </div>
   </script>
 

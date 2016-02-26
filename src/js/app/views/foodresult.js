@@ -9,7 +9,8 @@ app.FoodResultView = Backbone.View.extend({
   events: {
     'click': 'openDetails',
     'click .track-food-button.untracked': 'trackStats',
-    'click .track-food-button.tracked': 'stopTracking'
+    'click .track-food-button.tracked': 'stopTracking',
+    'click .new-log-entry-button': 'createLogEntry'
   },
 
   initialize: function () {
@@ -90,6 +91,18 @@ app.FoodResultView = Backbone.View.extend({
       /* we want to prevent the details panel from opening
        * if the user decides not to stop tracking.
        */
+      e.stopPropagation();
+    }
+  },
+
+  // launch window to create new log entry for this food
+  createLogEntry: function (e) {
+    if (app.foods.tracking(this.model.get('resource_id'))) {
+      app.appView.trigger('openlogentry', {
+        action: 'new',
+        food: this.model
+      });
+      // Prevent the details panel from opening.
       e.stopPropagation();
     }
   }

@@ -138,6 +138,15 @@ a {
   color: #77a346;
 }
 
+.new-log-entry-button {
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.new-log-entry-button::before {
+  content: '+';
+}
+
 .none-found {
   text-align: center;
   color: #808080;
