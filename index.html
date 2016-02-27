@@ -127,7 +127,7 @@
   <script type="text/template" id="calories-history-item-template">
     <div class="calories-history-item-date"><%= date.toDateString() %></div>
     <div class="calories-history-item-description">
-      <span class="calories-history-item-count"><%= calories %> Cal:</span>
+      <span class="calories-history-item-count"><%= calories.toFixed(1) %> Cal:</span>
       <span class="calories-history-item-name"><%= name %> (<%= brandName %>)</span>
     </div>
   </script>
