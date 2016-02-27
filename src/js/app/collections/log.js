@@ -37,11 +37,13 @@ var CalorieLog = Backbone.Collection.extend({
     results.forEach(function (entry) {
       var dateString = new Date(entry.get('date')).toDateString();
       var kcalsByDate = data.kcalsByDate;
+      var increment = entry.get('kcalCount');
       if (kcalsByDate[dateString]) {
-        kcalsByDate[dateString] += entry.get('kcalCount');
+        kcalsByDate[dateString] += increment;
       } else {
-        kcalsByDate[dateString] = entry.get('kcalCount');
+        kcalsByDate[dateString] = increment;
       }
+      data.totalCalories += increment;
     });
     return data;
   },

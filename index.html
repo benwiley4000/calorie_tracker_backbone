@@ -86,7 +86,7 @@
           <strong><%= isTracking ? 'Tracking:' : 'Track this food' %></strong>
         </span>
         <% if (isTracking) { %>
-          <span><%= weekCalCount %> Cal in last week</span>
+          <span><%= weekCalCount.toFixed(1) %> Cal in last week</span>
         <% } %>
       </div>
       <% if (isTracking) { %>
