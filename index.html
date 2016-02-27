@@ -104,11 +104,11 @@
     <img class="food-calories-history-image" src="<%= image %>" alt="<%= name %>">
     <div class="food-calories-total">
       <span><strong>Total Calories Consumed:</strong></span>
-      <span><%= totalCalories %></span>
+      <span><%= totalCalories.toFixed(1) %></span>
     </div>
     <div class="food-calories-today">
       <span><strong>Calories Consumed Today:</strong></span>
-      <span><%= todayCalories %></span>
+      <span><%= todayCalories.toFixed(1) %></span>
     </div>
     <h2 class="history-list-head">History</h2>
     <div id="history-list" class="history-list"></div>
@@ -118,7 +118,7 @@
     <h1 class="day-calories-history-title"><%= date %></h1>
     <div class="day-calories">
       <span><strong>Calories Consumed:</strong></span>
-      <span><%= calories %></span>
+      <span><%= calories.toFixed(1) %></span>
     </div>
     <h2 class="history-list-head">History</h2>
     <div id="history-list" class="history-list"></div>

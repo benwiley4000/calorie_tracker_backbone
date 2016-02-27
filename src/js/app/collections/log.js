@@ -13,7 +13,7 @@ var CalorieLog = Backbone.Collection.extend({
   select: function (options) {
     options = options || {};
     return this.filter(function (entry) {
-      if (!isNaN(options.resourceId) && entry.get('resourceId') !== options.resourceId) {
+      if (options.resourceId && entry.get('resourceId') !== options.resourceId) {
         return false;
       }
       var entryDate = new Date(entry.get('date'));
