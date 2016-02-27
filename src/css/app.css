@@ -35,6 +35,10 @@ a {
   color: #77a346;
 }
 
+a:hover {
+  color: #506d2f;
+}
+
 .pages-nav {
   list-style: none;
   display: flex;
@@ -45,10 +49,12 @@ a {
 
 .page-link {
   margin-right: 0.5em;
+  padding-bottom: 2px;
 }
 
 .page-link.selected {
   color: #506d2f;
+  border-bottom: 3px solid #506d2f;
 }
 
 .main-app {
