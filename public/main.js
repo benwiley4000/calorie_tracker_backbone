@@ -158,8 +158,6 @@ var CalorieLog = Backbone.Collection.extend({
 
   localStorage: new Backbone.LocalStorage('kcal-log-backbone'),
 
-  comparator: 'date',
-
   initialize: function () {
     this.on('change', this.sort);
   },
@@ -198,6 +196,10 @@ var CalorieLog = Backbone.Collection.extend({
       }
     });
     return data;
+  },
+
+  comparator: function (entry) {
+    return -(entry.get('date'));
   }
 
 });
