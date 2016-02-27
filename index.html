@@ -110,8 +110,8 @@
       <span><strong>Calories Consumed Today:</strong></span>
       <span><%= todayCalories %></span>
     </div>
-    <h2 class="history-list-head">Entries</h2>
-    <div class="history-list"></div>
+    <h2 class="history-list-head">History</h2>
+    <div id="history-list" class="history-list"></div>
   </script>
 
   <script type="text/template" id="day-calories-history-template">
@@ -120,13 +120,13 @@
       <span><strong>Calories Consumed:</strong></span>
       <span><%= calories %></span>
     </div>
-    <h2 class="history-list-head">Entries</h2>
-    <div class="history-list"></div>
+    <h2 class="history-list-head">History</h2>
+    <div id="history-list" class="history-list"></div>
   </script>
 
-  <script type="text/template" id="calories-history-entry-template">
-    <div class="calories-history-entry-description"><%= name %> (<%= brandName %>): <%= calories %> Cal</div>
-    <div class="calories-history-entry-date"><%= date %></div>
+  <script type="text/template" id="calories-history-item-template">
+    <div class="calories-history-item-description"><%= name %> (<%= brandName %>): <%= calories %> Cal</div>
+    <div class="calories-history-item-date"><%= date %></div>
   </script>
 
   <!-- Below script uses custom Date input value converter (see end of HTML page) -->

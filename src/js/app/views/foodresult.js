@@ -15,13 +15,20 @@ app.FoodResultView = Backbone.View.extend({
 
   initialize: function () {
     this.$el.addClass('food-result');
+
     this.listenTo(app.foods, 'add', this.refreshAfterTracking);
+
+    var resourceId = this.model.get('resource_id');
+    var storedModel = app.foods.get(resourceId);
+    if (storedModel) {
+      this.listenTo(storedModel, 'logupdate', this.render);
+    }
   },
 
   render: function () {
     var attributes = this.model.attributes;
 
-    var isTracking = app.foods.tracking(attributes.resource_id);
+    var isTracking = app.foods.get(attributes.resource_id) ? true : false;
     var oneWeekAgo = new Date();
     oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
     var weekCalCount = this.model.getLogData({
@@ -46,7 +53,7 @@ app.FoodResultView = Backbone.View.extend({
   },
 
   openDetails: function (e) {
-    if (app.foods.tracking(this.model.get('resource_id'))) {
+    if (app.foods.get(this.model.get('resource_id'))) {
       app.appView.trigger('opendetails', {
         format: 'food',
         model: this.model
@@ -67,8 +74,9 @@ app.FoodResultView = Backbone.View.extend({
 
   // tracks this food in localStorage
   trackStats: function (e) {
-    if (!app.foods.tracking(this.model.get('resource_id'))) {
-      app.foods.create(this.model.attributes);
+    if (!app.foods.get(this.model.get('resource_id'))) {
+      var food = app.foods.create(this.model.attributes);
+      this.listenTo(food, 'logupdate', this.render);
       // we don't want the details panel to immediately open
       e.stopPropagation();
     }
@@ -84,8 +92,9 @@ app.FoodResultView = Backbone.View.extend({
       app.foods.filter(function (food) {
         return food.get('resource_id') === this.model.get('resource_id');
       }, this).forEach(function (food) {
+        this.stopListening(food);
         app.foods.remove(food);
-      });
+      }, this);
       this.render();
     } else {
       /* we want to prevent the details panel from opening
@@ -97,7 +106,7 @@ app.FoodResultView = Backbone.View.extend({
 
   // launch window to create new log entry for this food
   createLogEntry: function (e) {
-    if (app.foods.tracking(this.model.get('resource_id'))) {
+    if (app.foods.get(this.model.get('resource_id'))) {
       app.appView.trigger('openlogentry', {
         action: 'new',
         food: this.model

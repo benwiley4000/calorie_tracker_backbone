@@ -26,6 +26,8 @@ var app = app || {};
 
 app.Food = Backbone.Model.extend({
 
+  idAttribute: 'resource_id',
+
   getLogData: function (options) {
     options = options || {};
     return app.kcalLog.getData({
@@ -141,13 +143,6 @@ var FoodList = Backbone.Collection.extend({
 
   comparator: function (food) {
     return food.get(this.comparatorType);
-  },
-
-  // returns true if the given resourceId is contained, false otherwise
-  tracking: function (resourceId) {
-    return this.some(function (model) {
-      return model.attributes.resource_id === resourceId;
-    });
   }
 
 });
@@ -485,6 +480,18 @@ app.DetailsPanelView = Backbone.View.extend({
       throw new Error('Unrecognized details panel format: ' + options.format || 'undefined');
 
     }
+
+    var $historyList = this.$('#history-list');
+
+    if (!logData.results.length) {
+      $historyList.html($('<p>No entries found.</p>'));
+      return;
+    }
+
+    logData.results.forEach(function (entry) {
+      var view = new app.HistoryItemView({ model: entry });
+      $historyList.append(view.render().el);
+    });
   },
 
   /* keeps appView from closing the details panel in
@@ -517,13 +524,20 @@ app.FoodResultView = Backbone.View.extend({
 
   initialize: function () {
     this.$el.addClass('food-result');
+
     this.listenTo(app.foods, 'add', this.refreshAfterTracking);
+
+    var resourceId = this.model.get('resource_id');
+    var storedModel = app.foods.get(resourceId);
+    if (storedModel) {
+      this.listenTo(storedModel, 'logupdate', this.render);
+    }
   },
 
   render: function () {
     var attributes = this.model.attributes;
 
-    var isTracking = app.foods.tracking(attributes.resource_id);
+    var isTracking = app.foods.get(attributes.resource_id) ? true : false;
     var oneWeekAgo = new Date();
     oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
     var weekCalCount = this.model.getLogData({
@@ -548,7 +562,7 @@ app.FoodResultView = Backbone.View.extend({
   },
 
   openDetails: function (e) {
-    if (app.foods.tracking(this.model.get('resource_id'))) {
+    if (app.foods.get(this.model.get('resource_id'))) {
       app.appView.trigger('opendetails', {
         format: 'food',
         model: this.model
@@ -569,8 +583,9 @@ app.FoodResultView = Backbone.View.extend({
 
   // tracks this food in localStorage
   trackStats: function (e) {
-    if (!app.foods.tracking(this.model.get('resource_id'))) {
-      app.foods.create(this.model.attributes);
+    if (!app.foods.get(this.model.get('resource_id'))) {
+      var food = app.foods.create(this.model.attributes);
+      this.listenTo(food, 'logupdate', this.render);
       // we don't want the details panel to immediately open
       e.stopPropagation();
     }
@@ -586,8 +601,9 @@ app.FoodResultView = Backbone.View.extend({
       app.foods.filter(function (food) {
         return food.get('resource_id') === this.model.get('resource_id');
       }, this).forEach(function (food) {
+        this.stopListening(food);
         app.foods.remove(food);
-      });
+      }, this);
       this.render();
     } else {
       /* we want to prevent the details panel from opening
@@ -599,7 +615,7 @@ app.FoodResultView = Backbone.View.extend({
 
   // launch window to create new log entry for this food
   createLogEntry: function (e) {
-    if (app.foods.tracking(this.model.get('resource_id'))) {
+    if (app.foods.get(this.model.get('resource_id'))) {
       app.appView.trigger('openlogentry', {
         action: 'new',
         food: this.model
@@ -607,6 +623,51 @@ app.FoodResultView = Backbone.View.extend({
       // Prevent the details panel from opening.
       e.stopPropagation();
     }
+  }
+
+});
+
+var app = app || {};
+
+app.HistoryItemView = Backbone.View.extend({
+
+  tagName: 'div',
+
+  template: _.template($('#calories-history-item-template').html()),
+
+  events: {
+    'click .history-item-edit': 'editLogEntry'
+  },
+
+  initialize: function () {
+    this.$el.addClass('calories-history-item');
+
+    this.listenTo(this.model, 'change', this.render);
+
+    this.food = app.foods.get(this.model.get('resource_id'));
+  },
+
+  render: function () {
+    var food = this.food;
+    var entry = this.model;
+
+    var props = {
+      name: food.get('item_name'),
+      brandName: food.get('brand_name'),
+      calories: entry.get('kcalCount'),
+      date: entry.get('date')
+    };
+
+    this.$el.html(this.template(props));
+    return this;
+  },
+
+  // launch window to edit this item's log entry
+  editLogEntry: function (e) {
+    app.appView.trigger('openlogentry', {
+      action: 'edit',
+      entry: this.model
+    });
   }
 
 });
@@ -753,12 +814,14 @@ app.LogEntryView = Backbone.View.extend({
         });
       }
 
+      food.trigger('logupdate');
+
       this.close();
 
       // create success message notification
 
     } else {
-      
+
       // create error message notification
 
     }

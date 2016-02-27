@@ -51,6 +51,18 @@ app.DetailsPanelView = Backbone.View.extend({
       throw new Error('Unrecognized details panel format: ' + options.format || 'undefined');
 
     }
+
+    var $historyList = this.$('#history-list');
+
+    if (!logData.results.length) {
+      $historyList.html($('<p>No entries found.</p>'));
+      return;
+    }
+
+    logData.results.forEach(function (entry) {
+      var view = new app.HistoryItemView({ model: entry });
+      $historyList.append(view.render().el);
+    });
   },
 
   /* keeps appView from closing the details panel in

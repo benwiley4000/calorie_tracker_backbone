@@ -2,6 +2,8 @@ var app = app || {};
 
 app.Food = Backbone.Model.extend({
 
+  idAttribute: 'resource_id',
+
   getLogData: function (options) {
     options = options || {};
     return app.kcalLog.getData({

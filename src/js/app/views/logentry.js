@@ -140,12 +140,14 @@ app.LogEntryView = Backbone.View.extend({
         });
       }
 
+      food.trigger('logupdate');
+
       this.close();
 
       // create success message notification
 
     } else {
-      
+
       // create error message notification
 
     }
