@@ -256,6 +256,10 @@ a {
   cursor: pointer;
 }
 
+.calories-history-item:hover {
+  background-color: #c3daa8;
+}
+
 .calories-history-item-date {
   font-style: italic;
 }
@@ -298,8 +302,7 @@ a {
 }
 
 ::selection {
-  background-color: #33461e;
-  color: #fff;
+  background-color: #c3daa8;
 }
 
 @media screen and (min-width: 400px) {
