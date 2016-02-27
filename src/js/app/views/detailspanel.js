@@ -15,9 +15,24 @@ app.DetailsPanelView = Backbone.View.extend({
 
   initialize: function () {
     this.$caloriesHistory = this.$('#calories-history');
+
+    this.listenTo(app.kcalLog, 'add', this.render);
+    this.listenTo(app.kcalLog, 'sort', this.render);
+    this.listenTo(app.kcalLog, 'remove', this.render);
+
+    this.options = null;
   },
 
-  render: function (options) {
+  open: function (options) {
+    this.options = options;
+    this.render();
+  },
+
+  render: function () {
+    var options = this.options;
+    if (!options) {
+      return;
+    }
     var logData;
     var props;
     if (options.format === 'food') {
@@ -73,6 +88,7 @@ app.DetailsPanelView = Backbone.View.extend({
   },
 
   close: function () {
+    this.options = null;
     app.appView.trigger('closedetails');
   }
 

@@ -23,6 +23,12 @@ app.AppView = Backbone.View.extend({
     this.on('closedetails', this.closeDetails);
     this.on('openlogentry', this.openLogEntry);
     this.on('closelogentry', this.closeLogEntry);
+
+    /* since we stop click event propagation from popups, we
+     * need to make sure we close one if we click in the other one.
+     */
+    this.detailsPanelView.$el.click(this.closeLogEntry.bind(this));
+    this.logEntryView.$el.click(this.closeDetailsPopup.bind(this));
   },
 
   swapView: function () {
@@ -55,7 +61,7 @@ app.AppView = Backbone.View.extend({
 
   openDetails: function (options) {
     try {
-      this.detailsPanelView.render(options);
+      this.detailsPanelView.open(options);
       this.closeLogEntry();
       this.detailsPanelView.$el.removeClass('hidden');
     } catch (e) {
@@ -67,10 +73,17 @@ app.AppView = Backbone.View.extend({
     this.detailsPanelView.$el.addClass('hidden');
   },
 
+  // closes the details panel, but only if it's currently a popup
+  closeDetailsPopup: function () {
+    if (this.detailsPanelView.$el.css('position') === 'absolute') {
+      this.closeDetails();
+    }
+  },
+
   openLogEntry: function (options) {
     try {
       this.logEntryView.open(options);
-      this.closeDetails();
+      this.closeDetailsPopup();
       this.logEntryView.$el.removeClass('hidden');
     } catch (e) {
       console.error(e);
@@ -82,13 +95,8 @@ app.AppView = Backbone.View.extend({
   },
 
   handleClick: function () {
-    /* if the user clicks outside of the details panel (and it's
-     * currently styled as a floating window) then close it.
-     */
-    if (this.detailsPanelView.$el.css('position') === 'absolute') {
-      this.closeDetails();
-    }
-
+    // if the user clicks outside of a popup then close it.
+    this.closeDetailsPopup();
     this.closeLogEntry();
   }
 

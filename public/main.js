@@ -55,17 +55,19 @@ var app = app || {};
 app.LogEntry = Backbone.Model.extend({
 
   constructor: function () {
-    arguments[0].date = app.LogEntry.getAdjustedDate(new Date(arguments[0].date));
+    arguments[0].date = app.LogEntry
+      .getAdjustedDate(new Date(arguments[0].date))
+      .getTime();
     Backbone.Model.apply(this, arguments);
   },
   
   setDate: function (date) {
     var adjustedDate = app.LogEntry.getAdjustedDate(date);
-    this.set({ date: adjustedDate });
+    this.save({ date: adjustedDate.getTime() });
   },
 
   setCalorieCount: function (kcalCount) {
-    this.set({ kcalCount: kcalCount });
+    this.save({ kcalCount: kcalCount });
   }
 
 });
@@ -158,17 +160,21 @@ var CalorieLog = Backbone.Collection.extend({
 
   comparator: 'date',
 
+  initialize: function () {
+    this.on('change', this.sort);
+  },
+
   select: function (options) {
     options = options || {};
     return this.filter(function (entry) {
       if (!isNaN(options.resourceId) && entry.get('resourceId') !== options.resourceId) {
         return false;
       }
-      var entryDate = entry.get('date');
+      var entryDate = new Date(entry.get('date'));
       if (options.startDate && entryDate < app.LogEntry.getAdjustedDate(options.startDate)) {
         return false;
       }
-      if (options.endDate && endDate > app.LogEntry.getAdjustedDate(options.endDate)) {
+      if (options.endDate && entryDate > app.LogEntry.getAdjustedDate(options.endDate)) {
         return false;
       }
       return true;
@@ -183,7 +189,7 @@ var CalorieLog = Backbone.Collection.extend({
       kcalsByDate: {}
     };
     results.forEach(function (entry) {
-      var dateString = entry.get('date').toDateString();
+      var dateString = new Date(entry.get('date')).toDateString();
       var kcalsByDate = data.kcalsByDate;
       if (kcalsByDate[dateString]) {
         kcalsByDate[dateString] += entry.get('kcalCount');
@@ -342,6 +348,12 @@ app.AppView = Backbone.View.extend({
     this.on('closedetails', this.closeDetails);
     this.on('openlogentry', this.openLogEntry);
     this.on('closelogentry', this.closeLogEntry);
+
+    /* since we stop click event propagation from popups, we
+     * need to make sure we close one if we click in the other one.
+     */
+    this.detailsPanelView.$el.click(this.closeLogEntry.bind(this));
+    this.logEntryView.$el.click(this.closeDetailsPopup.bind(this));
   },
 
   swapView: function () {
@@ -374,7 +386,7 @@ app.AppView = Backbone.View.extend({
 
   openDetails: function (options) {
     try {
-      this.detailsPanelView.render(options);
+      this.detailsPanelView.open(options);
       this.closeLogEntry();
       this.detailsPanelView.$el.removeClass('hidden');
     } catch (e) {
@@ -386,10 +398,17 @@ app.AppView = Backbone.View.extend({
     this.detailsPanelView.$el.addClass('hidden');
   },
 
+  // closes the details panel, but only if it's currently a popup
+  closeDetailsPopup: function () {
+    if (this.detailsPanelView.$el.css('position') === 'absolute') {
+      this.closeDetails();
+    }
+  },
+
   openLogEntry: function (options) {
     try {
       this.logEntryView.open(options);
-      this.closeDetails();
+      this.closeDetailsPopup();
       this.logEntryView.$el.removeClass('hidden');
     } catch (e) {
       console.error(e);
@@ -401,13 +420,8 @@ app.AppView = Backbone.View.extend({
   },
 
   handleClick: function () {
-    /* if the user clicks outside of the details panel (and it's
-     * currently styled as a floating window) then close it.
-     */
-    if (this.detailsPanelView.$el.css('position') === 'absolute') {
-      this.closeDetails();
-    }
-
+    // if the user clicks outside of a popup then close it.
+    this.closeDetailsPopup();
     this.closeLogEntry();
   }
 
@@ -444,9 +458,24 @@ app.DetailsPanelView = Backbone.View.extend({
 
   initialize: function () {
     this.$caloriesHistory = this.$('#calories-history');
+
+    this.listenTo(app.kcalLog, 'add', this.render);
+    this.listenTo(app.kcalLog, 'sort', this.render);
+    this.listenTo(app.kcalLog, 'remove', this.render);
+
+    this.options = null;
   },
 
-  render: function (options) {
+  open: function (options) {
+    this.options = options;
+    this.render();
+  },
+
+  render: function () {
+    var options = this.options;
+    if (!options) {
+      return;
+    }
     var logData;
     var props;
     if (options.format === 'food') {
@@ -502,6 +531,7 @@ app.DetailsPanelView = Backbone.View.extend({
   },
 
   close: function () {
+    this.options = null;
     app.appView.trigger('closedetails');
   }
 
@@ -516,7 +546,8 @@ app.FoodResultView = Backbone.View.extend({
   template: _.template($('#food-result-template').html()),
 
   events: {
-    'click': 'openDetails',
+    'click .food-result-title': 'openDetails',
+    'click .food-result-thumbnail': 'openDetails',
     'click .track-food-button.untracked': 'trackStats',
     'click .track-food-button.tracked': 'stopTracking',
     'click .new-log-entry-button': 'createLogEntry'
@@ -526,7 +557,7 @@ app.FoodResultView = Backbone.View.extend({
     this.$el.addClass('food-result');
 
     this.listenTo(app.foods, 'add', this.refreshAfterTracking);
-
+    
     var resourceId = this.model.get('resource_id');
     var storedModel = app.foods.get(resourceId);
     if (storedModel) {
@@ -602,7 +633,7 @@ app.FoodResultView = Backbone.View.extend({
         return food.get('resource_id') === this.model.get('resource_id');
       }, this).forEach(function (food) {
         this.stopListening(food);
-        app.foods.remove(food);
+        food.destroy();
       }, this);
       this.render();
     } else {
@@ -636,15 +667,13 @@ app.HistoryItemView = Backbone.View.extend({
   template: _.template($('#calories-history-item-template').html()),
 
   events: {
-    'click .history-item-edit': 'editLogEntry'
+    'click': 'editLogEntry'
   },
 
   initialize: function () {
     this.$el.addClass('calories-history-item');
 
-    this.listenTo(this.model, 'change', this.render);
-
-    this.food = app.foods.get(this.model.get('resource_id'));
+    this.food = app.foods.get(this.model.get('resourceId'));
   },
 
   render: function () {
@@ -655,7 +684,7 @@ app.HistoryItemView = Backbone.View.extend({
       name: food.get('item_name'),
       brandName: food.get('brand_name'),
       calories: entry.get('kcalCount'),
-      date: entry.get('date')
+      date: new Date(entry.get('date'))
     };
 
     this.$el.html(this.template(props));
@@ -668,6 +697,10 @@ app.HistoryItemView = Backbone.View.extend({
       action: 'edit',
       entry: this.model
     });
+    /* keep details panel from picking up click and
+     * closing the log entry view.
+     */
+    e.stopPropagation();
   }
 
 });
@@ -713,7 +746,7 @@ app.LogEntryView = Backbone.View.extend({
     } else if (action === 'edit') {
 
       var entry = this.entry = options.entry;
-      food = this.food = app.foods.get(entry.get('resource_id'));
+      food = this.food = app.foods.get(entry.get('resourceId'));
       var kcalCount = entry.get('kcalCount');
       if (this.selectedUnit === 'serving') {
         this.foodAmount = kcalCount / food.get('nutrient_value');
@@ -752,7 +785,7 @@ app.LogEntryView = Backbone.View.extend({
       disableServings: this.disableServings,
       servingQty: food.get('serving_qty'),
       servingUom: food.get('serving_uom'),
-      date: entry ? entry.get('date') : new Date()
+      date: entry ? new Date(entry.get('date')) : new Date()
     };
 
     this.$logEntryForm.html(this.template(props));
@@ -791,16 +824,20 @@ app.LogEntryView = Backbone.View.extend({
 
       var food = this.food;
 
-      var foodAmount = foodAmountInput.value;
+      var foodAmount = this.foodAmount;
       var foodUnit = foodUnitSelect.value;
       var kcalCount;
-      if (foodUnit === 'servings') {
+      if (foodUnit === 'serving') {
         kcalCount = foodAmount * food.get('nutrient_value');
       } else {
         kcalCount = foodAmount;
       }
 
-      var date = new Date(dateInput.value);
+      var dateInputData = dateInput.value.split('-');
+      var date = new Date();
+      date.setYear(dateInputData[0]);
+      date.setMonth(dateInputData[1] - 1); // month setter is zero-based!
+      date.setDate(dateInputData[2]);
 
       var entry = this.entry;
       if (entry) {
@@ -818,7 +855,7 @@ app.LogEntryView = Backbone.View.extend({
 
       this.close();
 
-      // create success message notification
+      // create successful save message notification
 
     } else {
 
@@ -831,11 +868,13 @@ app.LogEntryView = Backbone.View.extend({
     var entry = this.entry;
     var message =
       'Are you sure you want to delete an entry for ' +
-      entry.get('kcalCount') + ' on ' +
-      entry.get('date').toDateString() + '?';
+      entry.get('kcalCount') + ' Calories on ' +
+      new Date(entry.get('date')).toDateString() + '?';
     if (window.confirm(message)) {
-      app.kcalLog.remove(entry);
+      entry.destroy();
       this.close();
+
+      // create successful delete message notification
     }
   },
 

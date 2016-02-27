@@ -8,17 +8,21 @@ var CalorieLog = Backbone.Collection.extend({
 
   comparator: 'date',
 
+  initialize: function () {
+    this.on('change', this.sort);
+  },
+
   select: function (options) {
     options = options || {};
     return this.filter(function (entry) {
       if (!isNaN(options.resourceId) && entry.get('resourceId') !== options.resourceId) {
         return false;
       }
-      var entryDate = entry.get('date');
+      var entryDate = new Date(entry.get('date'));
       if (options.startDate && entryDate < app.LogEntry.getAdjustedDate(options.startDate)) {
         return false;
       }
-      if (options.endDate && endDate > app.LogEntry.getAdjustedDate(options.endDate)) {
+      if (options.endDate && entryDate > app.LogEntry.getAdjustedDate(options.endDate)) {
         return false;
       }
       return true;
@@ -33,7 +37,7 @@ var CalorieLog = Backbone.Collection.extend({
       kcalsByDate: {}
     };
     results.forEach(function (entry) {
-      var dateString = entry.get('date').toDateString();
+      var dateString = new Date(entry.get('date')).toDateString();
       var kcalsByDate = data.kcalsByDate;
       if (kcalsByDate[dateString]) {
         kcalsByDate[dateString] += entry.get('kcalCount');

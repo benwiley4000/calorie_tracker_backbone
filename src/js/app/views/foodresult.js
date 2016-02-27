@@ -7,7 +7,8 @@ app.FoodResultView = Backbone.View.extend({
   template: _.template($('#food-result-template').html()),
 
   events: {
-    'click': 'openDetails',
+    'click .food-result-title': 'openDetails',
+    'click .food-result-thumbnail': 'openDetails',
     'click .track-food-button.untracked': 'trackStats',
     'click .track-food-button.tracked': 'stopTracking',
     'click .new-log-entry-button': 'createLogEntry'
@@ -17,7 +18,7 @@ app.FoodResultView = Backbone.View.extend({
     this.$el.addClass('food-result');
 
     this.listenTo(app.foods, 'add', this.refreshAfterTracking);
-
+    
     var resourceId = this.model.get('resource_id');
     var storedModel = app.foods.get(resourceId);
     if (storedModel) {
@@ -93,7 +94,7 @@ app.FoodResultView = Backbone.View.extend({
         return food.get('resource_id') === this.model.get('resource_id');
       }, this).forEach(function (food) {
         this.stopListening(food);
-        app.foods.remove(food);
+        food.destroy();
       }, this);
       this.render();
     } else {

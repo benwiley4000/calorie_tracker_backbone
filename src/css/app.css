@@ -116,6 +116,11 @@ a {
   overflow: auto;
 }
 
+.food-result-title,
+.food-result-thumbnail {
+  cursor: pointer;
+}
+
 .food-result-thumbnail {
   width: 100px;
 }
@@ -193,7 +198,6 @@ a {
 }
 
 .popup-window {
-  flex-grow: 1;
   border: 1px solid #d3d3d3;
   background-color: #f2f2f2;
   box-sizing: border-box;
@@ -202,6 +206,9 @@ a {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  overflow: auto;
+  max-width: 85vw;
+  max-height: 85vh;
 }
 
 .close {
@@ -228,15 +235,36 @@ a {
   border: 1px solid #808080;
   margin: 7px;
   box-sizing: border-box;
-  padding: 0 15px 15px;
+  padding: 0 15px;
 }
 
 .food-calories-history-image {
   padding-bottom: 10px;
 }
 
-.form-field,
-.log-entry-form-submit-container {
+.food-calories-total,
+.food-calories-today {
+  white-space: nowrap;
+}
+
+.calories-history-item {
+  border: 1px solid #808080;
+  background-color: #e8f1de;
+  margin-bottom: 16px;
+  padding: 6px 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.calories-history-item-date {
+  font-style: italic;
+}
+
+.calories-history-item-count {
+  font-weight: bold;
+}
+
+.form-field {
   white-space: nowrap;
   padding: 6px 0;
 }
@@ -252,6 +280,17 @@ a {
 .serving-size-notice {
   font-style: italic;
   padding-bottom: 6px;
+}
+
+.log-entry-form-decision-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.log-entry-form-delete {
+  color: #b22222;
+  cursor: pointer;
 }
 
 .hidden {
@@ -291,8 +330,8 @@ a {
     left: initial;
     transform: initial;
     max-width: 370px;
-    align-self: flex-start;
     margin-top: 8px;
+    flex-grow: 1;
   }
 
   .details-panel-close {

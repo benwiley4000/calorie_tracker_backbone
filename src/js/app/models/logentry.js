@@ -3,17 +3,19 @@ var app = app || {};
 app.LogEntry = Backbone.Model.extend({
 
   constructor: function () {
-    arguments[0].date = app.LogEntry.getAdjustedDate(new Date(arguments[0].date));
+    arguments[0].date = app.LogEntry
+      .getAdjustedDate(new Date(arguments[0].date))
+      .getTime();
     Backbone.Model.apply(this, arguments);
   },
   
   setDate: function (date) {
     var adjustedDate = app.LogEntry.getAdjustedDate(date);
-    this.set({ date: adjustedDate });
+    this.save({ date: adjustedDate.getTime() });
   },
 
   setCalorieCount: function (kcalCount) {
-    this.set({ kcalCount: kcalCount });
+    this.save({ kcalCount: kcalCount });
   }
 
 });

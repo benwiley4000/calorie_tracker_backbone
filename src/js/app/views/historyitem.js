@@ -7,15 +7,13 @@ app.HistoryItemView = Backbone.View.extend({
   template: _.template($('#calories-history-item-template').html()),
 
   events: {
-    'click .history-item-edit': 'editLogEntry'
+    'click': 'editLogEntry'
   },
 
   initialize: function () {
     this.$el.addClass('calories-history-item');
 
-    this.listenTo(this.model, 'change', this.render);
-
-    this.food = app.foods.get(this.model.get('resource_id'));
+    this.food = app.foods.get(this.model.get('resourceId'));
   },
 
   render: function () {
@@ -26,7 +24,7 @@ app.HistoryItemView = Backbone.View.extend({
       name: food.get('item_name'),
       brandName: food.get('brand_name'),
       calories: entry.get('kcalCount'),
-      date: entry.get('date')
+      date: new Date(entry.get('date'))
     };
 
     this.$el.html(this.template(props));
@@ -39,6 +37,10 @@ app.HistoryItemView = Backbone.View.extend({
       action: 'edit',
       entry: this.model
     });
+    /* keep details panel from picking up click and
+     * closing the log entry view.
+     */
+    e.stopPropagation();
   }
 
 });

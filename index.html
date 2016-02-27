@@ -125,8 +125,11 @@
   </script>
 
   <script type="text/template" id="calories-history-item-template">
-    <div class="calories-history-item-description"><%= name %> (<%= brandName %>): <%= calories %> Cal</div>
-    <div class="calories-history-item-date"><%= date %></div>
+    <div class="calories-history-item-date"><%= date.toDateString() %></div>
+    <div class="calories-history-item-description">
+      <span class="calories-history-item-count"><%= calories %> Cal:</span>
+      <span class="calories-history-item-name"><%= name %> (<%= brandName %>)</span>
+    </div>
   </script>
 
   <!-- Below script uses custom Date input value converter (see end of HTML page) -->
@@ -150,15 +153,15 @@
       <input id="food-consumption-date-input"
              type="date"
              value="<%= date.toDateInputValue() %>"
-             max="<%= (new Date()).toDateInputValue() %>"
+             max="<%= new Date().toDateInputValue() %>"
              required>
     </div>
-    <div class="log-entry-form-submit-container">
+    <div class="log-entry-form-decision-container">
       <button id="log-entry-form-submit" class="log-entry-form-submit">Confirm</button>
+      <% if (action === 'edit') { %>
+        <div id="log-entry-form-delete" class="log-entry-form-delete">Delete</div>
+      <% } %>
     </div>
-    <% if (action === 'edit') { %>
-      <div id="log-entry-form-delete" class="log-entry-form-delete">Delete</div>
-    <% } %>
   </script>
 
   <script type="text/template" id="calendar-view-template">

@@ -39,7 +39,7 @@ app.LogEntryView = Backbone.View.extend({
     } else if (action === 'edit') {
 
       var entry = this.entry = options.entry;
-      food = this.food = app.foods.get(entry.get('resource_id'));
+      food = this.food = app.foods.get(entry.get('resourceId'));
       var kcalCount = entry.get('kcalCount');
       if (this.selectedUnit === 'serving') {
         this.foodAmount = kcalCount / food.get('nutrient_value');
@@ -78,7 +78,7 @@ app.LogEntryView = Backbone.View.extend({
       disableServings: this.disableServings,
       servingQty: food.get('serving_qty'),
       servingUom: food.get('serving_uom'),
-      date: entry ? entry.get('date') : new Date()
+      date: entry ? new Date(entry.get('date')) : new Date()
     };
 
     this.$logEntryForm.html(this.template(props));
@@ -117,16 +117,20 @@ app.LogEntryView = Backbone.View.extend({
 
       var food = this.food;
 
-      var foodAmount = foodAmountInput.value;
+      var foodAmount = this.foodAmount;
       var foodUnit = foodUnitSelect.value;
       var kcalCount;
-      if (foodUnit === 'servings') {
+      if (foodUnit === 'serving') {
         kcalCount = foodAmount * food.get('nutrient_value');
       } else {
         kcalCount = foodAmount;
       }
 
-      var date = new Date(dateInput.value);
+      var dateInputData = dateInput.value.split('-');
+      var date = new Date();
+      date.setYear(dateInputData[0]);
+      date.setMonth(dateInputData[1] - 1); // month setter is zero-based!
+      date.setDate(dateInputData[2]);
 
       var entry = this.entry;
       if (entry) {
@@ -144,7 +148,7 @@ app.LogEntryView = Backbone.View.extend({
 
       this.close();
 
-      // create success message notification
+      // create successful save message notification
 
     } else {
 
@@ -157,11 +161,13 @@ app.LogEntryView = Backbone.View.extend({
     var entry = this.entry;
     var message =
       'Are you sure you want to delete an entry for ' +
-      entry.get('kcalCount') + ' on ' +
-      entry.get('date').toDateString() + '?';
+      entry.get('kcalCount') + ' Calories on ' +
+      new Date(entry.get('date')).toDateString() + '?';
     if (window.confirm(message)) {
-      app.kcalLog.remove(entry);
+      entry.destroy();
       this.close();
+
+      // create successful delete message notification
     }
   },
 
