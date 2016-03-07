@@ -361,3 +361,25 @@ input.has-error {
     display: initial;
   }
 }
+
+/* metricsgraphics.js styling */
+.mg-line1-color {
+  stroke: #506d2f;
+}
+
+.mg-area1-color {
+  fill: #77a346;
+}
+
+.mg-hover-line1-color {
+  fill: #506d2f;
+}
+
+.mg-line1-legend-color {
+  color: #506d2f;
+}
+
+circle.mg-points-mono {
+  fill: #506d2f;
+  stroke: #506d2f;
+}

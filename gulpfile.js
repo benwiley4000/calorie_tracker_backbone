@@ -53,13 +53,16 @@ gulp.task('lint', function () {
 });
 
 gulp.task('styles', function () {
-  return gulp.src('src/css/*.css')
+  return gulp.src([
+    'metricsgraphics.css',
+    'app.css'
+  ], { cwd: 'src/css/' })
     .pipe(plumber())
     .pipe(concat('all.css'))
     .pipe(autoprefixer({ browsers: ['> 2%'] }))
     .pipe(minifyCSS())
     .pipe(rename('main.css'))
-    .pipe(gulp.dest('public/'));
+    .pipe(gulp.dest('public/'), { cwd: '../../' });
 });
 
 gulp.task('watch', function () {
