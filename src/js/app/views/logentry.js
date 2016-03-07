@@ -176,7 +176,7 @@ app.LogEntryView = Backbone.View.extend({
   },
 
   handleFoodAmountChange: function (e) {
-    this.foodAmount = e.target.value;
+    this.foodAmount = parseFloat(e.target.value);
   },
 
   handleFoodUnitChange: function (e) {
