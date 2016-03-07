@@ -58,8 +58,9 @@ app.TimelineView = Backbone.View.extend({
       };
     });
 
-    var d = new Date(this.monthBounds.startDate);
-    var limit = new Date(this.monthBounds.endDate);
+    var monthBounds = this.monthBounds;
+    var d = new Date(monthBounds.startDate);
+    var limit = new Date(monthBounds.endDate);
     limit.setDate(limit.getDate() + 1);
     while (d < limit) {
       var dateString = d.toDateString();
