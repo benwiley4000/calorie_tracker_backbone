@@ -15,7 +15,7 @@ gulp.task('copy', [
 gulp.task('copy:html', function () {
   return gulp.src('src/index.html')
     .pipe(plumber())
-    .pipe(gulp.dest('public/'));
+    .pipe(gulp.dest('dist/'));
 });
 
 gulp.task('copy:libs', function () {
@@ -29,7 +29,7 @@ gulp.task('copy:libs', function () {
   ], { cwd: 'src/js/lib/' })
     .pipe(plumber())
     .pipe(concat('libs.js'))
-    .pipe(gulp.dest('public/'), { cwd: '../../../' });
+    .pipe(gulp.dest('dist/'), { cwd: '../../../' });
 });
 
 gulp.task('buildjs', function () {
@@ -42,7 +42,7 @@ gulp.task('buildjs', function () {
     .pipe(concat('all.js'))
     .pipe(uglify())
     .pipe(rename('main.js'))
-    .pipe(gulp.dest('public/'), { cwd: '../../' });
+    .pipe(gulp.dest('dist/'), { cwd: '../../' });
 });
 
 gulp.task('lint', function () {
@@ -62,7 +62,7 @@ gulp.task('styles', function () {
     .pipe(autoprefixer({ browsers: ['> 2%'] }))
     .pipe(minifyCSS())
     .pipe(rename('main.css'))
-    .pipe(gulp.dest('public/'), { cwd: '../../' });
+    .pipe(gulp.dest('dist/'), { cwd: '../../' });
 });
 
 gulp.task('watch', function () {
