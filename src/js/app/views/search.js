@@ -30,7 +30,7 @@ app.SearchView = Backbone.View.extend({
     this.listenTo(app.autoResults, 'sync', this.updateAutocomplete);
     this.listenTo(app.searchResults, 'sync', this.retrieveSearchResults);
 
-    this.retrieveSearchResults();
+    this.clearSearchResults();
   },
 
   updateAutocomplete: function () {

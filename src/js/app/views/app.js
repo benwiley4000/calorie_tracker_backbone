@@ -15,6 +15,7 @@ app.AppView = Backbone.View.extend({
 
     this.searchView = new app.SearchView();
     this.trackersView = new app.TrackersView();
+    this.timelineView = new app.TimelineView();
     this.detailsPanelView = new app.DetailsPanelView();
     this.logEntryView = new app.LogEntryView();
 
@@ -35,6 +36,8 @@ app.AppView = Backbone.View.extend({
     this.updateNavBar();
     if (app.page === 'trackers') {
       this.openTrackersView();
+    } else if (app.page === 'timeline') {
+      this.openTimelineView();
     } else {
       this.openSearchView();
     }
@@ -51,12 +54,23 @@ app.AppView = Backbone.View.extend({
     this.searchView.clearSearchResults();
     this.searchView.$el.removeClass('hidden');
     this.trackersView.$el.addClass('hidden');
+    this.timelineView.$el.addClass('hidden');
   },
 
   openTrackersView: function () {
     this.trackersView.render();
     this.trackersView.$el.removeClass('hidden');
     this.searchView.$el.addClass('hidden');
+    this.timelineView.$el.addClass('hidden');
+  },
+
+  openTimelineView: function () {
+    this.timelineView.open();
+    this.timelineView.$el.removeClass('hidden');
+    this.searchView.$el.addClass('hidden');
+    this.trackersView.$el.addClass('hidden');
+    // re-render timeline chart so it can fit to its container.
+    this.timelineView.renderChart();
   },
 
   openDetails: function (options) {

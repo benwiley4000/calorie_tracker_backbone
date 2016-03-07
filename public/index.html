@@ -17,6 +17,9 @@
       <li>
         <a class="page-link" href="#/trackers">Trackers</a>
       </li>
+      <li>
+        <a class="page-link" href="#/timeline">Timeline</a>
+      </li>
     </ul>
   </header>
   <main class="main-app">
@@ -38,6 +41,18 @@
     <div id="trackers" class="trackers hidden">
       <div id="tracker-list" class="tracker-list">
         <!-- Locally stored food trackers will be displayed here. -->
+      </div>
+    </div>
+    <div id="timeline" class="timeline hidden">
+      <div class="timeline-chart-container">
+        <div class="previous-month"></div>
+        <div id="timeline-chart" class="timeline-chart">
+          <!-- Will be populated by metricsgraphics.js line chart -->
+        </div>
+        <div class="next-month"></div>
+      </div>
+      <div id="daily-calorie-totals" class="daily-calorie-totals">
+        <!-- Will contain entries for each day in the month with at least one log entry -->
       </div>
     </div>
     <div id="details-panel" class="details-panel popup-window hidden">

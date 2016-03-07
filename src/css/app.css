@@ -64,7 +64,8 @@ a:hover {
 }
 
 .search,
-.trackers {
+.trackers,
+.timeline {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -313,6 +314,40 @@ input.has-error {
   cursor: pointer;
 }
 
+.timeline-chart-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.timeline-chart {
+  flex-grow: 1;
+}
+
+.timeline-chart .mg-line1-color {
+  stroke: #506d2f;
+}
+
+.timeline-chart .mg-area1-color {
+  fill: #77a346;
+}
+
+.timeline-chart .mg-hover-line1-color {
+  fill: #506d2f;
+}
+
+.timeline-chart .mg-line1-legend-color {
+  color: #506d2f;
+}
+
+.timeline-chart circle.mg-points-mono {
+  fill: #506d2f;
+  stroke: #506d2f;
+}
+
+.timeline-chart .mg-year-marker {
+  display: none;
+}
+
 .hidden {
   display: none;
 }
@@ -335,7 +370,8 @@ input.has-error {
 
 @media screen and (min-width: 570px) {
   .search,
-  .trackers {
+  .trackers,
+  .timeline {
     width: 440px;
     max-width: 440px;
   }
@@ -360,26 +396,4 @@ input.has-error {
   .details-panel:hover .details-panel-close {
     display: initial;
   }
-}
-
-/* metricsgraphics.js styling */
-.mg-line1-color {
-  stroke: #506d2f;
-}
-
-.mg-area1-color {
-  fill: #77a346;
-}
-
-.mg-hover-line1-color {
-  fill: #506d2f;
-}
-
-.mg-line1-legend-color {
-  color: #506d2f;
-}
-
-circle.mg-points-mono {
-  fill: #506d2f;
-  stroke: #506d2f;
 }
