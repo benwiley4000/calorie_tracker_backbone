@@ -137,6 +137,7 @@
     <h2 class="log-entry-form-head">
       <%= action === 'edit' ? 'Edit' : 'New' %> log entry for <%= itemName %>
     </h2>
+    <div id="log-entry-error" class="log-entry-error hidden">Please fix errors.</div>
     <div class="form-field">
       <label>Amount</label>
       <input class="food-amount-input" id="food-amount-input" type="number" step="0.1" min="0.1" required>

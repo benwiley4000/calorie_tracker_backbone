@@ -274,6 +274,12 @@ a:hover {
   font-weight: bold;
 }
 
+.log-entry-error {
+  color: #b22222;
+  font-style: italic;
+  padding-bottom: 10px;
+}
+
 .form-field {
   white-space: nowrap;
   padding: 6px 0;
@@ -281,6 +287,10 @@ a:hover {
 
 .form-field label {
   font-weight: bold;
+}
+
+input.has-error {
+  border: 2px solid #b22222;
 }
 
 .food-amount-input {
