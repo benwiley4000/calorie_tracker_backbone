@@ -7,12 +7,33 @@ var rename = require('gulp-rename');
 var autoprefixer = require('gulp-autoprefixer');
 var minifyCSS = require('gulp-minify-css');
 
+gulp.task('copy', [
+  'copy:html',
+  'copy:libs'
+]);
+
+gulp.task('copy:html', function () {
+  return gulp.src('src/index.html')
+    .pipe(plumber())
+    .pipe(gulp.dest('public/'));
+});
+
+gulp.task('copy:libs', function () {
+  return gulp.src([
+    'jquery-2.1.4.min.js',
+    'underscore-min.js',
+    'backbone-min.js',
+    'backbone.localStorage-min.js',
+    'd3.min.js',
+    'metricsgraphics.min.js'
+  ], { cwd: 'src/js/lib/' })
+    .pipe(plumber())
+    .pipe(concat('libs.js'))
+    .pipe(gulp.dest('public/'), { cwd: '../../../' });
+});
+
 gulp.task('buildjs', function () {
   return gulp.src([
-    'lib/jquery-2.1.4.min.js',
-    'lib/underscore-min.js',
-    'lib/backbone-min.js',
-    'lib/backbone.localStorage-min.js',
     'app/models/*.js',
     'app/!(models)/*.js',
     'app/*.js'
@@ -42,8 +63,9 @@ gulp.task('styles', function () {
 });
 
 gulp.task('watch', function () {
-  gulp.watch(['src/js/app/**/*.js', 'src/js/app/*.js'], ['buildjs', 'lint']);
+  gulp.watch('src/index.html', ['copy:html']);
+  gulp.watch('src/js/app/**/*.js', ['buildjs', 'lint']);
   gulp.watch('src/css/*.css', ['styles']);
 });
 
-gulp.task('default', ['buildjs', 'lint', 'styles', 'watch']);
+gulp.task('default', ['copy', 'buildjs', 'lint', 'styles', 'watch']);
