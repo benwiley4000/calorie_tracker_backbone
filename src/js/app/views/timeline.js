@@ -1,25 +1,25 @@
 var app = app || {};
 
-app.MONTH_NAMES = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec'
-];
-
 app.TimelineView = Backbone.View.extend({
 
   el: '#timeline',
 
   initialize: function () {
+    this.MONTH_NAMES = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ];
+
     this.data = null;
     this.month = null;
     this.monthBounds = null;
@@ -28,7 +28,7 @@ app.TimelineView = Backbone.View.extend({
   open: function (date) {
     date = date || new Date();
     var year = date.getFullYear();
-    var month = date.getMonth(); // 0-based
+    var month = this.month = date.getMonth(); // 0-based
     this.monthBounds = {
       startDate: new Date(year, month, 1),
       endDate: new Date(year, month + 1, 0)
@@ -50,13 +50,29 @@ app.TimelineView = Backbone.View.extend({
     var data = this.data;
     var totalCalories = data.totalCalories;
     var kcalsByDate = data.kcalsByDate;
+
     var chartData = Object.keys(kcalsByDate).map(function (date) {
       return {
         'date': new Date(date),
         'Calories': kcalsByDate[date]
       };
     });
-    var monthName = app.MONTH_NAMES[this.monthBounds.startDate.getMonth()];
+
+    var d = new Date(this.monthBounds.startDate);
+    var limit = new Date(this.monthBounds.endDate);
+    limit.setDate(limit.getDate() + 1);
+    while (d < limit) {
+      var dateString = d.toDateString();
+      if (!kcalsByDate[dateString]) {
+        chartData.push({
+          'date': new Date(d),
+          'Calories': 0
+        });
+      }
+      d.setDate(d.getDate() + 1);
+    }
+
+    var monthName = this.MONTH_NAMES[this.month];
     MG.data_graphic({
       'title': monthName + ' 2016: ' + totalCalories.toLocaleString() + ' Total Cal',
       'data': chartData,
@@ -68,7 +84,7 @@ app.TimelineView = Backbone.View.extend({
       'y_rollover_format': function (d) {
         return d['Calories'].toLocaleString() + ' Cal'
       },
-      'buffer': 0,
+      'buffer': 1,
       'left': 50,
       'right': 20,
       /* if we use this while the view is hidden it will create an error,
