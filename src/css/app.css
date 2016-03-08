@@ -180,11 +180,6 @@ a:hover {
   color: #808080;
 }
 
-/* Loading container positioning was so hard!
- * Here's a stackoverflow answer that helped
- * me figured it out.
- */
-
 .loading-container,
 .load-error-container {
   position: absolute;
@@ -218,6 +213,11 @@ a:hover {
   text-align: center;
   width: 250px;
   margin: 0 auto 0 -135px;
+}
+
+.tracker-ordering-controls .form-field {
+  margin-left: 16px;
+  line-height: 1.8em;
 }
 
 .popup-window {

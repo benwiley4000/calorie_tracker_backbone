@@ -39,6 +39,20 @@
       </div>
     </div>
     <div id="trackers" class="trackers hidden">
+      <div class="tracker-ordering-controls">
+        <label class="form-field">
+          Order by:
+          <select id="comparator-type">
+            <option value="item_name">Item name</option>
+            <option value="brand_name">Brand name</option>
+            <option value="nutrient_value">Calories</option>
+          </select>
+        </label>
+        <label class="form-field">
+          Reverse order?
+          <input id="reverse-order" type="checkbox">
+        </label>
+      </div>
       <div id="tracker-list" class="tracker-list">
         <!-- Locally stored food trackers will be displayed here. -->
       </div>

@@ -4,6 +4,11 @@ app.TrackersView = Backbone.View.extend({
 
   el: '#trackers',
 
+  events: {
+    'change #comparator-type': 'changeComparatorType',
+    'change #reverse-order': 'toggleReverseOrder'
+  },
+
   initialize: function () {
     this.$trackerList = this.$('#tracker-list');
 
@@ -22,6 +27,14 @@ app.TrackersView = Backbone.View.extend({
     } else {
       $trackerList.append($('<p class="none-found">No foods tracked.</p>'));
     }
+  },
+
+  changeComparatorType: function (e) {
+    app.foods.changeComparatorType(e.target.value);
+  },
+
+  toggleReverseOrder: function (e) {
+    app.foods.toggleReverseOrder(e.target.checked);
   }
 
 });
