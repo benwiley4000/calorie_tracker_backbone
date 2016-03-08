@@ -354,6 +354,9 @@ input.has-error {
   padding-top: 16px;
 }
 
+/* navigation arrow based on model at
+ * https://css-tricks.com/examples/ShapesOfCSS/#chevron
+ */
 .navigation-arrow {
   height: 12px;
   width: 40px;
