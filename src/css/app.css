@@ -69,6 +69,7 @@ a:hover {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  max-width: 100%;
 }
 
 .search-prompt {
@@ -106,7 +107,8 @@ a:hover {
 }
 
 .search-results,
-.tracker-list {
+.tracker-list,
+.timeline-content-container {
   flex-grow: 1;
   margin: 8px 15px 0 0;
   overflow: auto;
@@ -116,7 +118,7 @@ a:hover {
 }
 
 .food-result {
-  background-color: #ffffff;
+  background-color: #fff;
   margin: 5px;
   padding: 0 10px 15px;
   border: 1px solid #808080;
@@ -315,9 +317,86 @@ input.has-error {
   cursor: pointer;
 }
 
+.timeline-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background-color: #fff;
+  margin: 5px;
+  padding: 0 10px 15px;
+  border: 1px solid #808080;
+}
+
 .timeline-chart-container {
   display: flex;
   flex-direction: row;
+}
+
+.timeline-chart-container .previous-month,
+.timeline-chart-container .next-month {
+  align-self: center;
+  margin-top: 5px;
+  position: absolute;
+  top: 24px;
+}
+
+.timeline-chart-container .previous-month {
+  left: 10px;
+}
+
+.timeline-chart-container .next-month {
+  right: 10px;
+}
+
+.timeline-chart {
+  width: 100%;
+  height: 200px;
+  padding-top: 16px;
+}
+
+.navigation-arrow {
+  height: 12px;
+  width: 40px;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.navigation-arrow:hover {
+  opacity: 0.7;
+}
+
+.navigation-arrow::before,
+.navigation-arrow::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background-color: #c3daa8;
+}
+
+.navigation-arrow:hover::before,
+.navigation-arrow:hover::after {
+  background-color: #77a346;
+}
+
+.navigation-arrow::before {
+  left: 0;
+  width: 51%;
+  transform: skew(0deg, 14deg);
+}
+
+.navigation-arrow::after {
+  right: 0;
+  width: 50%;
+  transform: skew(0deg, -14deg);
+}
+
+.navigation-arrow.previous-month {
+  transform: rotate(90deg);
+}
+
+.navigation-arrow.next-month {
+  transform: rotate(270deg);
 }
 
 .timeline-chart {
@@ -347,6 +426,18 @@ input.has-error {
 
 .timeline-chart .mg-year-marker {
   display: none;
+}
+
+.daily-calorie-totals {
+  margin-top: 20px;
+}
+
+.daily-calorie-totals hr {
+  border: none;
+  height: 1px;
+  background-color: #bbb;
+  margin-top: 30px;
+  margin-bottom: 24px;
 }
 
 .hidden {

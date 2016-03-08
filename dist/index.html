@@ -44,15 +44,19 @@
       </div>
     </div>
     <div id="timeline" class="timeline hidden">
-      <div class="timeline-chart-container">
-        <div class="previous-month"></div>
-        <div id="timeline-chart" class="timeline-chart">
-          <!-- Will be populated by metricsgraphics.js line chart -->
+      <div class="timeline-content-container">
+        <div class="timeline-content">
+          <div class="timeline-chart-container">
+            <div id="previous-month" class="previous-month navigation-arrow" title="Previous month"></div>
+            <div id="timeline-chart" class="timeline-chart">
+              <!-- Will be populated by metricsgraphics.js line chart -->
+            </div>
+            <div id="next-month" class="next-month navigation-arrow" title="Next month"></div>
+          </div>
+          <div id="daily-calorie-totals" class="daily-calorie-totals">
+            <!-- Will contain entries for each day in the month with at least one log entry -->
+          </div>
         </div>
-        <div class="next-month"></div>
-      </div>
-      <div id="daily-calorie-totals" class="daily-calorie-totals">
-        <!-- Will contain entries for each day in the month with at least one log entry -->
       </div>
     </div>
     <div id="details-panel" class="details-panel popup-window hidden">
@@ -142,8 +146,12 @@
   <script type="text/template" id="calories-history-item-template">
     <div class="calories-history-item-date"><%= date.toDateString() %></div>
     <div class="calories-history-item-description">
-      <span class="calories-history-item-count"><%= calories.toFixed(1) %> Cal:</span>
-      <span class="calories-history-item-name"><%= name %> (<%= brandName %>)</span>
+      <% if (typeof brandName !== 'undefined') { %>
+        <span class="calories-history-item-count"><%= calories.toFixed(1) %> Cal:</span>
+        <span class="calories-history-item-name"><%= name %> (<%= brandName %>)</span>
+      <% } else { %>
+        <span class="calories-history-item-count"><%= calories.toFixed(1) %> Calories</span>
+      <% } %>
     </div>
   </script>
 
