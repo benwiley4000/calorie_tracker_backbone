@@ -34,7 +34,7 @@ app.AppView = Backbone.View.extend({
 
   swapView: function () {
     this.updateNavBar();
-    if (app.page === 'trackers') {
+    if (app.page === 'your-foods') {
       this.openTrackersView();
     } else if (app.page === 'timeline') {
       this.openTimelineView();
