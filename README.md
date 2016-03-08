@@ -18,20 +18,15 @@ Instructions for building
 --------------------------
 
 1. Install Node.js.
-2. Install gulp using npm:
-```
-npm install -g gulp
-```
-3. Go to the root directory and install the gulp build dependencies:
-```
-npm install
-```
-4. Staying in the root directory, run gulp. It will continue watching the project for changes, and rebuild when appropriate.
-```
-gulp
-```
+
+2. Install gulp using npm: `npm install -g gulp`
+
+3. Go to the root directory and install the gulp build dependencies: `npm install`
+
+4. Staying in the root directory, run: `gulp`. It will continue watching the project for changes, and rebuild when appropriate.
 
 Known issues
 ------------
 
+* In at least some versions of Chrome for Android, selecting the date input in the calorie logger will bring up a datepicker focused on January 0001 (as in 2000 years ago). This is caused by a datepicker bug which interprets a date as out-of-range when it is equal to (rather than greater than) the supplied "value" attribute. A bug has been opened to address this issue: https://bugs.chromium.org/p/chromium/issues/detail?id=592924&can=2&q=date%20android&colspec=ID%20Pri%20M%20Stars%20ReleaseBlock%20Component%20Status%20Owner%20Summary%20OS%20Modified#.
 * Once the timeline chart has been loaded once, errors will be pushed to the console each time the window is resized and the chart is not currently visible. While a nuisance, this has no effect on user experience. The reason it occurs is that the chart tracks the size of the parent element, and the library expects a value in pixels. Such a value won't exist while the chart's container is hidden. A solution that does not involve forking the library may or may not exist.
