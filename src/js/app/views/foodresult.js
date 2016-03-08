@@ -90,12 +90,18 @@ app.FoodResultView = Backbone.View.extend({
       this.model.get('item_name') +
       '?';
     if (window.confirm(message)) {
+      var resourceId = this.model.get('resource_id');
       app.foods.filter(function (food) {
-        return food.get('resource_id') === this.model.get('resource_id');
+        return food.get('resource_id') === resourceId;
       }, this).forEach(function (food) {
         this.stopListening(food);
         food.destroy();
       }, this);
+      app.kcalLog.where({
+        resourceId: resourceId
+      }).forEach(function (log) {
+        log.destroy();
+      });
       this.render();
     } else {
       /* we want to prevent the details panel from opening
