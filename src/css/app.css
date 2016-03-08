@@ -125,9 +125,13 @@ a:hover {
   overflow: auto;
 }
 
-.food-result-title,
-.food-result-thumbnail {
+.food-result-history-link {
+  font-size: 1rem;
   cursor: pointer;
+}
+
+.food-result-history-link:hover {
+  text-decoration: underline;
 }
 
 .food-result-thumbnail {
@@ -142,14 +146,18 @@ a:hover {
   cursor: pointer;
 }
 
-.track-food-button.untracked::before {
-  content: '+';
-}
-
 .track-food-button.tracked::before {
   /* ( '✔' ) */
   content: '\2714';
   color: #77a346;
+  line-height: 1em;
+}
+
+.track-food-button.tracked:hover::before {
+  /* ( '❌' ) */
+  content: '\274c';
+  color: #b22222;
+  padding-right: 2px;
 }
 
 .new-log-entry-button {
@@ -157,8 +165,14 @@ a:hover {
   margin-left: 8px;
 }
 
+.track-food-button.untracked::before,
 .new-log-entry-button::before {
   content: '+';
+}
+
+.track-food-button.untracked:hover::before,
+.new-log-entry-button:hover::before {
+  color: #77a346;
 }
 
 .none-found {
@@ -233,7 +247,7 @@ a:hover {
 
 .close::after {
   /* ( '❌' ) */
-  content: '\274C';
+  content: '\274c';
 }
 
 .close:hover {

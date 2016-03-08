@@ -53,6 +53,7 @@
             </div>
             <div id="next-month" class="next-month navigation-arrow" title="Next month"></div>
           </div>
+
           <div id="daily-calorie-totals" class="daily-calorie-totals">
             <!-- Will contain entries for each day in the month with at least one log entry -->
           </div>
@@ -77,7 +78,12 @@
   </footer>
 
   <script type="text/template" id="food-result-template">
-    <h3 class="food-result-title"><%= item_name %></h3>
+    <h3 class="food-result-title">
+      <%= item_name %>
+      <% if (isTracking) { %>
+        <span class="food-result-history-link">(view history)</span>
+      <% } %>
+    </h3>
     <img class="food-result-thumbnail"
          src="<%= thumbnail %>"
          alt="<%= item_name %><%= brand_name ? ' from' + brand_name : '' %>">
@@ -186,11 +192,6 @@
         <div id="log-entry-form-delete" class="log-entry-form-delete">Delete</div>
       <% } %>
     </div>
-  </script>
-
-  <script type="text/template" id="calendar-view-template">
-    // TODO: implement timeline view (find library?) showing
-    // Calorie consumption over time
   </script>
 
   <script>

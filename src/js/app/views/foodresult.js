@@ -7,8 +7,7 @@ app.FoodResultView = Backbone.View.extend({
   template: _.template($('#food-result-template').html()),
 
   events: {
-    'click .food-result-title': 'openDetails',
-    'click .food-result-thumbnail': 'openDetails',
+    'click .food-result-history-link': 'openDetails',
     'click .track-food-button.untracked': 'trackStats',
     'click .track-food-button.tracked': 'stopTracking',
     'click .new-log-entry-button': 'createLogEntry'
