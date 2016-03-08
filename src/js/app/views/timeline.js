@@ -132,7 +132,7 @@ app.TimelineView = Backbone.View.extend({
        * since there is no computed value.
        */
       'full_width': this.isOpen(),
-      'full_height': this.isOpen(),
+      'full_height': this.isOpen()
     });
   },
 
