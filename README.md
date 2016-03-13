@@ -1,6 +1,8 @@
 Track Your Calories!
 ====================
 
+See it live at https://benwiley4000.github.io/calorie_tracker_backbone/.
+
 A web app that allows you to search the Nutritionix API for foods you regularly consume, and keep track of your intake. All data storage is local (except for the images belonging to each tracked food, which are fetched from the Nutritionix server). Your data can be accessed whenever you like on your machine of choice, though it's not currently easy to transfer or access data across multiple devices.
 
 Technologies used:
